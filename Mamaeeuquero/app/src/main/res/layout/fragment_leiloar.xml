@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/digite_um_t_tulo_para_seu_produto"
+            android:textColor="#595959"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_nomeProduto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/contorno_edit_view"
+            android:hint="@string/t_tulo"
+            android:inputType="textCapSentences"
+            android:padding="15dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/descreva_seu_produto"
+            android:textColor="#595959"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_DescricaoProduto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/contorno_edit_view"
+            android:ems="10"
+            android:hint="@string/descri_o"
+            android:inputType="textMultiLine"
+            android:maxLines="3"
+            android:padding="15dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/nome_da_cidade"
+            android:textColor="#595959"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_nomecidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/contorno_edit_view"
+            android:ems="10"
+            android:hint="@string/cidade"
+            android:inputType="textCapSentences"
+            android:padding="15dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Selecione a categoria "
+            android:textColor="#595959"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerclasse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:entries="@array/spinerTipoProduto"
+            android:padding="10dp">
+
+        </Spinner>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pre_o_inicial_r"
+                android:textColor="#595959"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_preco"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/contorno_edit_view"
+                android:ems="10"
+                android:hint="@string/pre_o_inicial"
+                android:inputType="number"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:gravity="center_horizontal"
+            android:text="@string/adicionar_imagens"
+            android:textColor="#595959"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/im1"
+
+                    android:layout_width="200dp"
+                    android:layout_height="200dp">
+                    <ImageView
+                        android:clickable="true"
+                        android:background="?selectableItemBackground"
+                        android:id="@+id/image1"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/def"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_toRightOf="@+id/im1"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp">
+                    <RelativeLayout
+
+                        android:layout_weight="1"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp" >
+                        <ImageView
+                            android:clickable="true"
+                            android:background="?selectableItemBackground"
+                            android:id="@+id/image2"
+                            android:layout_margin="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/def"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+
+                        android:layout_weight="1"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp">
+                        <ImageView
+                            android:clickable="true"
+                            android:background="?selectableItemBackground"
+                            android:id="@+id/image3"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/def"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

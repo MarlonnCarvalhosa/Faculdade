@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_inicio"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/inicio"/>
+
+    <item
+        android:id="@+id/navigation_favoritos"
+        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+        android:title="@string/categorias"/>
+
+    <item
+        android:id="@+id/navigation_leiloar"
+        android:icon="@drawable/ic_action_cifrao_white"
+        android:title="@string/leiloar"/>
+
+    <item
+        android:id="@+id/navigation_conversas"
+        android:icon="@drawable/ic_action_msg"
+        android:title="@string/conversas"/>
+
+    <item
+        android:id="@+id/navigation_perfil"
+        android:icon="@drawable/ic_action_perfil_white"
+        android:title="@string/perfil"/>
+
+</menu>

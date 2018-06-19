@@ -1,0 +1,8 @@
+<root>
+    <item
+        name='android.support.v7.widget.RecyclerView void addOnScrollListener(android.support.v7.widget.RecyclerView.OnScrollListener)'>
+        <annotation name='org.jetbrains.annotations.Contract'>
+            <val name="pure" val="true" />
+        </annotation>
+    </item>
+</root>

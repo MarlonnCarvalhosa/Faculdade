@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#9ae1c9"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.SplashScreenActivity">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+      <pl.droidsonroids.gif.GifImageView
+          android:layout_width="300dp"
+          android:layout_height="300dp"
+          android:layout_gravity="center"
+          android:src="@drawable/logo_gif_verde_nova"/>
+
+      <ImageView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="30dp"
+          android:src="@drawable/nome_logo_final"/>
+      <LinearLayout
+          android:gravity="bottom"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+         <TextView
+             android:gravity="center"
+             android:textColor="@color/white"
+             android:id="@+id/textView"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Desenvolvido por :" />
+         <TextView
+             android:gravity="center"
+             android:textColor="@color/white"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Sistemas de Informação - UniRedentor" />
+
+      </LinearLayout>
+   </LinearLayout>
+
+</RelativeLayout>

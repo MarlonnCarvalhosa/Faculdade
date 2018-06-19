@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".Views.CadastroActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/logolight" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/nome_completo"
+                android:textColorHint="#6cd6B2"
+                android:textColor="@color/colorPrimaryDark"
+                android:maxLines="1"
+                android:inputType="textCapSentences"
+                android:background="@drawable/bkgrd_redlogin1"
+                android:id="@+id/editText_cadastro_nome"
+                android:layout_marginTop="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/data_nascimento"
+                android:textColorHint="#6cd6B2"
+                android:textColor="@color/colorPrimaryDark"
+                android:maxLines="1"
+                android:inputType="date"
+                android:background="@drawable/bkgrd_redlogin1"
+                android:id="@+id/editText_cadastro_data_nascimento"
+                android:layout_marginTop="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/numero_celular"
+                android:textColorHint="#6cd6B2"
+                android:textColor="@color/colorPrimaryDark"
+                android:maxLines="1"
+                android:inputType="phone"
+                android:background="@drawable/bkgrd_redlogin1"
+                android:id="@+id/editText_cadastro_numero_celular"
+                android:layout_marginTop="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/e_mail"
+                android:textColorHint="#6cd6B2"
+                android:textColor="@color/colorPrimaryDark"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/bkgrd_redlogin1"
+                android:id="@+id/editText_cadastro_email"
+                android:layout_marginTop="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/senha"
+                android:textColorHint="#6cd6B2"
+                android:textColor="@color/colorPrimaryDark"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:background="@drawable/bkgrd_redlogin1"
+                android:id="@+id/editText_cadastro_senha"
+                android:layout_marginTop="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/confirmar_senha"
+                android:textColorHint="#6cd6B2"
+                android:textColor="@color/colorPrimaryDark"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:background="@drawable/bkgrd_redlogin1"
+                android:id="@+id/editText_cadastro_confirmar_senha"
+                android:layout_marginTop="5dp" />
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cadastrar"
+                android:clickable="true"
+                android:textColor="#6cd6B2"
+                android:padding="16dp"
+                android:textSize="18sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bkgd_red_2"
+                android:id="@+id/cadastrar"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
