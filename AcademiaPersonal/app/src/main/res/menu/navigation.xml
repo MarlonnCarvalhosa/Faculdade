@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_alunos"
+        android:icon="@drawable/ic_action_alunos"
+        android:title="@string/alunos" />
+
+    <item
+        android:id="@+id/navigation_cadastrar"
+        android:icon="@drawable/ic_action_cadastro"
+        android:title="@string/cadastrar" />
+
+    <item
+        android:id="@+id/navigation_relatorio"
+        android:icon="@drawable/ic_action_relatorio"
+        android:title="@string/relatorio" />
+
+</menu>
