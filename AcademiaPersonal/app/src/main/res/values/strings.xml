@@ -11,4 +11,10 @@
     <string name="relatorio">Relatorio</string>
     <string name="cadastrar">Cadastrar</string>
     <string name="alunos">Alunos</string>
+
+    <array name="spinnertipoLogin">
+        <item>Aluno</item>
+        <item>Personal</item>
+    </array>
+
 </resources>
