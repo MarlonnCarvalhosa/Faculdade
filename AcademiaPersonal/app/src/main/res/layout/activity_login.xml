@@ -5,18 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".views.LoginActivity">
 
-    <Spinner
-        android:id="@+id/spinnerClasse"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_marginTop="30dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <FrameLayout
+        android:id="@+id/fragPrincipal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:entries="@array/spinnertipoLogin"
-        android:layout_marginTop="50dp"
-        android:padding="10dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center_horizontal">
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/btnFinalizar"

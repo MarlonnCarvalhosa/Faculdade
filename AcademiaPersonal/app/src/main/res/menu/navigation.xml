@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_action_relatorio"
         android:title="@string/relatorio" />
 
+    <item
+        android:id="@+id/navigation_perfil"
+        android:icon="@drawable/ic_action_perfil"
+        android:title="@string/perfil" />
+
 </menu>

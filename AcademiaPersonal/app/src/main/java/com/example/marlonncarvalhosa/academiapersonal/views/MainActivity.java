@@ -1,14 +1,15 @@
-package com.example.marlonncarvalhosa.academiapersonal;
+package com.example.marlonncarvalhosa.academiapersonal.views;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
+import com.example.marlonncarvalhosa.academiapersonal.R;
 import com.example.marlonncarvalhosa.academiapersonal.fragments.AlunosFragment;
 import com.example.marlonncarvalhosa.academiapersonal.fragments.CadastrarFragment;
+import com.example.marlonncarvalhosa.academiapersonal.fragments.PerfilFragment;
 import com.example.marlonncarvalhosa.academiapersonal.fragments.RelatorioFragment;
 import com.example.marlonncarvalhosa.academiapersonal.utils.FragmentoUtils;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_alunos:
                     FragmentoUtils.replace(MainActivity.this, new AlunosFragment());
                     return true;
+
                 case R.id.navigation_cadastrar:
                     FragmentoUtils.replace(MainActivity.this, new CadastrarFragment());
                     return true;
@@ -30,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_relatorio:
                     FragmentoUtils.replace(MainActivity.this, new RelatorioFragment());
                     return true;
+
+                case R.id.navigation_perfil:
+                    FragmentoUtils.replace(MainActivity.this, new PerfilFragment());
+                    return true;
+
             }
             return false;
         }
