@@ -1,11 +1,12 @@
 package com.example.marlonncarvalhosa.academiapersonal.model;
 
 import java.io.Serializable;
-import java.lang.annotation.Documented;
 
 public class Avaliacao implements Serializable {
 
     private String id;
+    private String idAluno;
+    private String idPersonal;
     private String bracoDireito;
     private String bracoEsquerdo;
     private String anteBracoDireito;
@@ -22,11 +23,12 @@ public class Avaliacao implements Serializable {
     private String altura;
     private String imc;
 
-
-    public Avaliacao(String id, String bracoDireito, String bracoEsquerdo, String anteBracoDireito, String anteBracoEsquerdo, String torax, String abdomen, String cintura, String quadril,
+    public Avaliacao(String id, String idAluno, String idPersonal, String bracoDireito, String bracoEsquerdo, String anteBracoDireito, String anteBracoEsquerdo, String torax, String abdomen, String cintura, String quadril,
                      String coxaDireita, String coxaEsquerda, String panturrilhaDireita, String panturrilhaEsquerda, String peso, String altura, String imc) {
 
         this.id = id;
+        this.idAluno = idAluno;
+        this.idPersonal = idPersonal;
         this.bracoDireito = bracoDireito;
         this.bracoEsquerdo = bracoEsquerdo;
         this.anteBracoDireito = anteBracoDireito;
@@ -54,6 +56,22 @@ public class Avaliacao implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIdAluno() {
+        return idAluno;
+    }
+
+    public void setIdAluno(String idAluno) {
+        this.idAluno = idAluno;
+    }
+
+    public String getIdPersonal() {
+        return idPersonal;
+    }
+
+    public void setIdPersonal(String idPersonal) {
+        this.idPersonal = idPersonal;
     }
 
     public String getBracoDireito() {

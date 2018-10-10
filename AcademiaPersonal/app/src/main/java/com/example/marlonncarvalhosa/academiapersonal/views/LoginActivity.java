@@ -7,11 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.marlonncarvalhosa.academiapersonal.DAO.DataBaseDAO;
 import com.example.marlonncarvalhosa.academiapersonal.R;
 import com.example.marlonncarvalhosa.academiapersonal.fragments.SpinnerFragment;
+import com.example.marlonncarvalhosa.academiapersonal.model.Usuario;
 import com.example.marlonncarvalhosa.academiapersonal.utils.FragmentoLogin;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -31,11 +35,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button btnFinalizar;
     private SignInButton btnLoginGoole;
+    private Spinner alunoPersonal;
+    private EditText teste;
+    private String id;
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
 
     private FirebaseAuth mAuth;
+    private Usuario usuario = new Usuario();
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
@@ -56,10 +64,39 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        teste = findViewById(R.id.teste);
+        alunoPersonal = (Spinner) findViewById(R.id.spinnerClasse);
         btnLoginGoole = (SignInButton) findViewById(R.id.sign_in_button);
         btnFinalizar = (Button) findViewById(R.id.btnFinalizar);
         btnFinalizarSalvar();
         LoginGoogle();
+
+    }
+
+    private  void uploadUsuario () {
+
+        usuario.setId(id);
+        usuario.setSelectAcademia(teste.getText().toString());
+
+        new DataBaseDAO().saveUsuario(LoginActivity.this, usuario);
+
+    }
+
+    public void verificaAuth() {
+
+        if (mAuth.getCurrentUser() != null) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                id = user.getUid();
+            }
+
+        }
+
+        if (mAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        };
 
     }
 
@@ -90,6 +127,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 } else {
 
+                    uploadUsuario();
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -97,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }
+
         });
 
     }
@@ -149,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void signOut() {
+    public void signOut() {
         mAuth.signOut();
 
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
@@ -172,8 +212,5 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
     }
-
-    // Trocar para fragment
-
 
 }

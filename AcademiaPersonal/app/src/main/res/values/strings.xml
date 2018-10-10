@@ -12,6 +12,7 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="alunos">Alunos</string>
     <string name="perfil">Perfil</string>
+    <string name="aguarde">Aguarde...</string>
 
     <array name="spinnertipoLogin">
         <item>Aluno</item>
