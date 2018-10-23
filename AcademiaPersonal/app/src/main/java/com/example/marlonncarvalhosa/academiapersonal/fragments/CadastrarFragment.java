@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
  */
 public class CadastrarFragment extends Fragment {
 
-    private EditText editBicepesDireito,editBicepesEsquerdo, editAntBracoDireito, editAntBracoEsquerdo, editTorax, editAbdomen, editCintura, editQuadril, editCoxaDireita, editCoxaEsquerda,
+    private EditText id, editBicepesDireito,editBicepesEsquerdo, editAntBracoDireito, editAntBracoEsquerdo, editTorax, editAbdomen, editCintura, editQuadril, editCoxaDireita, editCoxaEsquerda,
     editPanturrilhaDireita, editPanturrilhaEsquerda, editPeso, editAltura;
     private String idAluno, idPersonal;
     private Button irExercicios;
@@ -61,7 +61,6 @@ public class CadastrarFragment extends Fragment {
             public void onClick(View v) {
 
                 uploadAvaliacao(view);
-
 
             }
 
@@ -106,6 +105,7 @@ public class CadastrarFragment extends Fragment {
         Handler pdCanceller = new Handler();
         pdCanceller.postDelayed(progressRunnable, 2500);
 
+        avaliacao.setId(idPersonal);
         avaliacao.setIdAluno(idAluno);
         avaliacao.setIdPersonal(idPersonal);
         avaliacao.setBracoDireito(editBicepesDireito.getText().toString());

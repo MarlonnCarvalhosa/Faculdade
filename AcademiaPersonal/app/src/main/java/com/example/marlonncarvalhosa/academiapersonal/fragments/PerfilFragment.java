@@ -121,12 +121,13 @@ public class PerfilFragment extends Fragment {
 
             GoogleSignInAccount conta = result.getSignInAccount();
             nomeGoogle.setText(conta.getDisplayName());
-            emailGoogle.setText(conta.getEmail());
+           // emailGoogle.setText(conta.getEmail());
 
 
             Glide.with(getActivity()).load(conta.getPhotoUrl()).into(imagemGoogle);
 
         } else {
+
             goLogInScreen();
 
         }

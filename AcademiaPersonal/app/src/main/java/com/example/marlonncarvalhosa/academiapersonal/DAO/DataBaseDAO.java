@@ -8,7 +8,6 @@ import com.example.marlonncarvalhosa.academiapersonal.model.Avaliacao;
 import com.example.marlonncarvalhosa.academiapersonal.model.Usuario;
 import com.example.marlonncarvalhosa.academiapersonal.utils.ConfiguraçõesFirebase;
 import com.example.marlonncarvalhosa.academiapersonal.utils.ConstantsUtils;
-import com.example.marlonncarvalhosa.academiapersonal.views.LoginActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -19,8 +18,9 @@ public class DataBaseDAO {
     private int cont = 0;
 
 
-    public void saveUsuario(LoginActivity loginActivity, Usuario usuario) {
+    public void saveUsuario(FragmentActivity loginActivity, Usuario usuario) {
         usuario.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
+        Log.v("teste save", usuario.getId());
         DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
         reference.child(ConstantsUtils.BANCO_USUARIO).child(String.valueOf(usuario.getId())).setValue(usuario);
     }
@@ -41,13 +41,6 @@ public class DataBaseDAO {
         Log.v("teste save", avaliacao.getId());
         DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
         reference.child(ConstantsUtils.BANCO_AVALIACAO).child(String.valueOf(avaliacao.getId())).setValue(avaliacao);
-    }
-
-    private void uploadUsuario(Usuario usuario) {
-        usuario.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
-        Log.v("teste save", usuario.getId());
-        DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
-        reference.child(ConstantsUtils.BANCO_USUARIO).child(String.valueOf(usuario.getId())).setValue(usuario);
     }
 
     public static Query getQuerryUsuario(String uId) {

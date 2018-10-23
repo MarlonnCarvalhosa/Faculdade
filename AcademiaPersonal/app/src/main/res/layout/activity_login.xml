@@ -7,33 +7,54 @@
     android:orientation="vertical"
     tools:context=".views.LoginActivity">
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_marginTop="30dp"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-
-    <FrameLayout
-        android:id="@+id/fragPrincipal"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
-    </FrameLayout>
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_marginTop="30dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/teste"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="teste"/>
+        <Spinner
+            android:id="@+id/spinnerClasse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:entries="@array/spinnertipoLogin"
+            android:padding="10dp"
+            android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/btnFinalizar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:text="Finalizar" />
+        <Spinner
+            android:id="@+id/spinnerAcademia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:entries="@array/spinnerAcademia"
+            android:padding="10dp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/idIdade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Idade"
+            android:layout_gravity="center"
+            android:maxLength="2"/>
+
+        <Button
+            android:id="@+id/btnFinalizar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Finalizar"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
 
 </LinearLayout>

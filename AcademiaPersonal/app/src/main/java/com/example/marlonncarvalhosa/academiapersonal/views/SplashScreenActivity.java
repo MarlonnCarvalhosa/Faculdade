@@ -23,6 +23,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(r, 2000);
         hideNavigationbar();
+
     }
 
     Runnable r = new Runnable() {
@@ -40,6 +41,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+
             }
         }
     };
@@ -50,4 +52,5 @@ public class SplashScreenActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
     }
+
 }

@@ -14,15 +14,18 @@ import android.widget.Toast;
 
 import com.example.marlonncarvalhosa.academiapersonal.DAO.DataBaseDAO;
 import com.example.marlonncarvalhosa.academiapersonal.R;
-import com.example.marlonncarvalhosa.academiapersonal.fragments.SpinnerFragment;
 import com.example.marlonncarvalhosa.academiapersonal.model.Usuario;
-import com.example.marlonncarvalhosa.academiapersonal.utils.FragmentoLogin;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -35,20 +38,24 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button btnFinalizar;
     private SignInButton btnLoginGoole;
-    private Spinner alunoPersonal;
-    private EditText teste;
-    private String id;
+    private Spinner alunoPersonal, academia;
+    private EditText idade;
+    private String idUsuario;
+    private String nomeUsuario;
+    private String emailGoogle;
+    private String fotoPerfilGoogle;
+    private GoogleApiClient googleApiClient;
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
 
     private FirebaseAuth mAuth;
     private Usuario usuario = new Usuario();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
     private TextView mDetailTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +67,20 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
 
         mAuth = FirebaseAuth.getInstance();
 
-        teste = findViewById(R.id.teste);
-        alunoPersonal = (Spinner) findViewById(R.id.spinnerClasse);
-        btnLoginGoole = (SignInButton) findViewById(R.id.sign_in_button);
-        btnFinalizar = (Button) findViewById(R.id.btnFinalizar);
+        idade = findViewById(R.id.idIdade);
+        academia = findViewById(R.id.spinnerAcademia);
+        alunoPersonal = findViewById(R.id.spinnerClasse);
+        btnLoginGoole = findViewById(R.id.sign_in_button);
+        btnFinalizar = findViewById(R.id.btnFinalizar);
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
         btnFinalizarSalvar();
         LoginGoogle();
 
@@ -75,8 +88,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private  void uploadUsuario () {
 
-        usuario.setId(id);
-        usuario.setSelectAcademia(teste.getText().toString());
+        usuario.setId(idUsuario);
+        usuario.setNome(nomeUsuario);
+        usuario.setEmailGoogle(emailGoogle);
+        usuario.setFotoPerfilGoogle(fotoPerfilGoogle);
+        usuario.setIdade(idade.getText().toString());
+        usuario.setSelectAcademia(academia.getSelectedItem().toString());
+        usuario.setPersonalAluno(alunoPersonal.getSelectedItem().toString());
 
         new DataBaseDAO().saveUsuario(LoginActivity.this, usuario);
 
@@ -87,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
-                id = user.getUid();
+                idUsuario = user.getUid();;
             }
 
         }
@@ -107,8 +125,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 signIn();
-
-                FragmentoLogin.replace(LoginActivity.this, new SpinnerFragment());
 
             }
         });
@@ -131,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-                    finish();
 
                 }
 
@@ -139,12 +154,6 @@ public class LoginActivity extends AppCompatActivity {
 
         });
 
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -210,6 +219,43 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                     }
                 });
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
+        if (opr.isDone()) {
+            GoogleSignInResult result = opr.get();
+            handleSigninResult(result);
+        } else {
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                    handleSigninResult(googleSignInResult);
+                }
+            });
+        }
+
+    }
+
+    private void handleSigninResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+
+            GoogleSignInAccount conta = result.getSignInAccount();
+            idUsuario = conta.getIdToken();
+            nomeUsuario = conta.getDisplayName();
+            emailGoogle = conta.getEmail();
+            fotoPerfilGoogle = String.valueOf(conta.getPhotoUrl());
+
+
+           // Glide.with(this).load(fotoPerfilGoogle = conta.getPhotoUrl());
+
+        } else {
+
+        }
 
     }
 

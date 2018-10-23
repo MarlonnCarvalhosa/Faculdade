@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Academia Personal</string>
+    <string name="app_name">Gym Trainer</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -17,6 +17,13 @@
     <array name="spinnertipoLogin">
         <item>Aluno</item>
         <item>Personal</item>
+    </array>
+
+    <array name="spinnerAcademia">
+        <item>Sparta Fitness</item>
+        <item>Top Fitness</item>
+        <item>Leo Stronda Academy</item>
+        <item>BIIIIRRLLL</item>
     </array>
 
 </resources>

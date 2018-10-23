@@ -23,7 +23,7 @@ public class Avaliacao implements Serializable {
     private String altura;
     private String imc;
 
-    public Avaliacao(String id, String idAluno, String idPersonal, String bracoDireito, String bracoEsquerdo, String anteBracoDireito, String anteBracoEsquerdo, String torax, String abdomen, String cintura, String quadril,
+    public Avaliacao(String id, String idAluno, String  idPersonal, String bracoDireito, String bracoEsquerdo, String anteBracoDireito, String anteBracoEsquerdo, String torax, String abdomen, String cintura, String quadril,
                      String coxaDireita, String coxaEsquerda, String panturrilhaDireita, String panturrilhaEsquerda, String peso, String altura, String imc) {
 
         this.id = id;
