@@ -18,4 +18,8 @@ public class ConfiguraçõesFirebase {
     public static Query getProdutos() {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_AVALIACAO);
     }
+
+    public static Query getUsuario() {
+        return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_USUARIO);
+    }
 }

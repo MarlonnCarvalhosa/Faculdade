@@ -250,9 +250,6 @@ public class LoginActivity extends AppCompatActivity {
             emailGoogle = conta.getEmail();
             fotoPerfilGoogle = String.valueOf(conta.getPhotoUrl());
 
-
-           // Glide.with(this).load(fotoPerfilGoogle = conta.getPhotoUrl());
-
         } else {
 
         }
