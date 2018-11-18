@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/clickEntrar"
+        android:id="@+id/clicaPraEntrar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,12 +16,6 @@
             android:background="#FFFFFF"
             android:clickable="true"
             android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/fotoDoGoogle"
-                android:layout_width="90dp"
-                android:layout_height="115dp"
-                android:layout_margin="5dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -35,7 +29,7 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/nomeDoGoogle"
+                        android:id="@+id/nomeDoExercicio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"

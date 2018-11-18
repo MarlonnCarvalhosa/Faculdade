@@ -22,4 +22,8 @@ public class ConfiguraçõesFirebase {
     public static Query getUsuario() {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_USUARIO);
     }
+
+    public static Query getDias() {
+        return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_DIAS);
+    }
 }

@@ -2,19 +2,19 @@ package com.example.marlonncarvalhosa.academiapersonal.model;
 
 import java.io.Serializable;
 
-public class Exercicio implements Serializable {
+public class Dias implements Serializable {
 
     private String id;
-    private String nome;
+    private String dia;
 
-    public Exercicio (String id, String nome) {
+    public Dias(String id, String dia) {
 
         this.id = id;
-        this.nome = nome;
+        this.dia = dia;
 
     }
 
-    public Exercicio () {
+    public Dias() {
     }
 
     public String getId() {
@@ -26,10 +26,10 @@ public class Exercicio implements Serializable {
     }
 
     public String getNome() {
-        return nome;
+        return dia;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.dia = nome;
     }
 }

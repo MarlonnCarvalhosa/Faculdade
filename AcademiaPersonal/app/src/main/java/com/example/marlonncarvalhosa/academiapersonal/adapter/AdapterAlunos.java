@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.marlonncarvalhosa.academiapersonal.R;
+import com.example.marlonncarvalhosa.academiapersonal.fragments.CadastrarFragment;
 import com.example.marlonncarvalhosa.academiapersonal.model.Usuario;
+import com.example.marlonncarvalhosa.academiapersonal.utils.FragmentoUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -76,7 +78,7 @@ public class AdapterAlunos extends RecyclerView.Adapter<AdapterAlunos.ViewHolder
             @Override
             public void onClick(View v) {
 
-                //FragmentoUtils.replace(activity, new DescricaoFragment().newInstance(produto));
+                FragmentoUtils.replace(activity, new CadastrarFragment());
 
             }
         });

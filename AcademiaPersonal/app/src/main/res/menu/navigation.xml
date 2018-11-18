@@ -7,11 +7,6 @@
         android:title="@string/alunos" />
 
     <item
-        android:id="@+id/navigation_cadastrar"
-        android:icon="@drawable/ic_action_cadastro"
-        android:title="@string/cadastrar" />
-
-    <item
         android:id="@+id/navigation_perfil"
         android:icon="@drawable/ic_action_perfil"
         android:title="@string/perfil" />

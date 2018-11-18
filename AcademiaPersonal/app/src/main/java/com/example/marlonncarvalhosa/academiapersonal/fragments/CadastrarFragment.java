@@ -98,7 +98,7 @@ public class CadastrarFragment extends Fragment {
             @Override
             public void run() {
                 progressDialog.cancel();
-                FragmentoUtils.replace(getActivity(), new ExerciciosFragment());
+                FragmentoUtils.replace(getActivity(), new DiasFragment());
             }
         };
 

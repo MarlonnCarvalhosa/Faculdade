@@ -13,6 +13,7 @@
     <string name="alunos">Alunos</string>
     <string name="perfil">Perfil</string>
     <string name="aguarde">Aguarde...</string>
+    <string name="dia">Dia 1</string>
 
     <array name="spinnertipoLogin">
         <item>Aluno</item>

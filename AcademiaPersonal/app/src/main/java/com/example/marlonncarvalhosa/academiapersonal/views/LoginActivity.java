@@ -1,7 +1,9 @@
 package com.example.marlonncarvalhosa.academiapersonal.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -88,7 +90,24 @@ public class LoginActivity extends AppCompatActivity {
 
     private  void uploadUsuario () {
 
-        usuario.setId(idUsuario);
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(LoginActivity.this.getString(R.string.aguarde));
+        progressDialog.show();
+
+        Runnable progressRunnable = new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.cancel();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        Handler pdCanceller = new Handler();
+        pdCanceller.postDelayed(progressRunnable, 2500);
+
+        usuario.setIdUsuario(idUsuario);
         usuario.setNome(nomeUsuario);
         usuario.setEmailGoogle(emailGoogle);
         usuario.setFotoPerfilGoogle(fotoPerfilGoogle);
@@ -144,9 +163,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
 
                     uploadUsuario();
-
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
 
                 }
 

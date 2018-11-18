@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 import com.example.marlonncarvalhosa.academiapersonal.R;
 import com.example.marlonncarvalhosa.academiapersonal.fragments.AlunosFragment;
-import com.example.marlonncarvalhosa.academiapersonal.fragments.CadastrarFragment;
 import com.example.marlonncarvalhosa.academiapersonal.fragments.PerfilFragment;
 import com.example.marlonncarvalhosa.academiapersonal.utils.FragmentoUtils;
 
@@ -22,10 +21,6 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_alunos:
                     FragmentoUtils.replace(MainActivity.this, new AlunosFragment());
-                    return true;
-
-                case R.id.navigation_cadastrar:
-                    FragmentoUtils.replace(MainActivity.this, new CadastrarFragment());
                     return true;
 
                 case R.id.navigation_perfil:

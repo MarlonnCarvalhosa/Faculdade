@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.example.marlonncarvalhosa.academiapersonal.model.Avaliacao;
+import com.example.marlonncarvalhosa.academiapersonal.model.Dias;
 import com.example.marlonncarvalhosa.academiapersonal.model.Usuario;
 import com.example.marlonncarvalhosa.academiapersonal.utils.ConfiguraçõesFirebase;
 import com.example.marlonncarvalhosa.academiapersonal.utils.ConstantsUtils;
@@ -46,4 +47,16 @@ public class DataBaseDAO {
     public static Query getQuerryUsuario(String uId) {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_USUARIO).child(uId);
     }
+
+    public void newDia(FragmentActivity activity, Dias dias) {
+        dias.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
+        DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
+        reference.child(ConstantsUtils.BANCO_DIAS).child(String.valueOf(dias.getId())).setValue(dias);
+    }
+
+    public static Query getDias(String uid) {
+        return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_USUARIO).child(uid+"/dias");
+
+    }
+
 }
