@@ -1,9 +1,5 @@
 package com.marlonn.devmov2;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,9 +14,21 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,29 +39,41 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+import com.marlonn.devmov2.DAO.DataBaseDAO;
+import com.marlonn.devmov2.model.Usuario;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, Serializable {
 
     private GoogleMap mMap;
 
+    private GoogleApiClient googleApiClient;
+    private GoogleSignInClient mGoogleSignInClient;
+    FirebaseAuth firebaseAuth;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private Marker currentLocationMaker;
     private LatLng currentLocationLatLong;
     private DatabaseReference mDatabase;
+    private ImageButton btn_perfil;
     private int hora;
+
+    private Usuario usuario = new Usuario();
+    private String idUsuario;
+    private String nomeUsuario;
+    private String fotoPerfilGoogle;
 
 
     @Override
@@ -61,11 +81,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleApiClient = new GoogleApiClient.Builder(MapsActivity.this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        //verificaAuth();
         startGettingLocations();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        btn_perfil = (ImageButton) findViewById(R.id.perfil_btn);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         getMarkers();
@@ -86,19 +119,70 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
 
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
+        if (firebaseAuth.getCurrentUser() != null) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                abrirDialogo();
+            if (user != null) {
 
-                LocationData locationData = new LocationData(latLng.latitude, latLng.longitude);
-                mDatabase.child("usuario").child("evento").child(String.valueOf(new Date().getTime())).setValue(locationData);
+                mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng latLng) {
 
-                atualizarActivity();
+                        abrirDialogo();
+
+                        LocationData locationData = new LocationData(latLng.latitude, latLng.longitude);
+                        mDatabase.child("usuario").child("evento").child(String.valueOf(new Date().getTime())).setValue(locationData);
+
+                        atualizarActivity();
+
+                        uploadUsuario();
+
+                    }
+                });
+
+                btn_perfil.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent(MapsActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+
+                        uploadUsuario();
+
+                    }
+                });
+
+                Toast.makeText(MapsActivity.this, "logado", Toast.LENGTH_LONG).show();
 
             }
-        });
+
+        } else {
+
+            mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng latLng) {
+
+                    abrirDialogoLogin();
+
+                }
+            });
+
+            btn_perfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    abrirDialogoLogin();
+
+                }
+            });
+
+        }
+
+        if (firebaseAuth.getCurrentUser() == null) {
+            Toast.makeText(MapsActivity.this, "nao logado", Toast.LENGTH_LONG).show();
+        };
+
+
 
         Calendar c = Calendar.getInstance();
         hora = c.get(Calendar.HOUR_OF_DAY);
@@ -148,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationData locationData = new LocationData(location.getLatitude(), location.getLongitude());
         mDatabase.child("usuario").child("mylocation").setValue(locationData);
 
-        Toast.makeText(this, "Localização atualizada", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Localização atualizada", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -207,7 +291,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         boolean canGetLocation = true;
         int ALL_PERMISSIONS_RESULT = 101;
         long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;// Distance in meters
-        long MIN_TIME_BW_UPDATES = 60000;// Time in milliseconds
+        long MIN_TIME_BW_UPDATES = 600;// Time in milliseconds
 
         ArrayList<String> permissions = new ArrayList<>();
         ArrayList<String> permissionsToRequest;
@@ -328,18 +412,66 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void abrirDialogoLogin() {
+
+        LoginDialog loginDialog = new LoginDialog();
+        loginDialog.show(getSupportFragmentManager(), " Eventos");
+
+    }
+
+    private  void uploadUsuario () {
+
+        usuario.setIdUsuario(idUsuario);
+        usuario.setNome(nomeUsuario);
+        usuario.setFotoPerfilGoogle(fotoPerfilGoogle);
+
+        new DataBaseDAO().saveUsuario(MapsActivity.this, usuario);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
+        if (opr.isDone()) {
+            GoogleSignInResult result = opr.get();
+            handleSigninResult(result);
+        } else {
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                    handleSigninResult(googleSignInResult);
+                }
+            });
+        }
+
+    }
+
+    private void handleSigninResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+
+            GoogleSignInAccount conta = result.getSignInAccount();
+            idUsuario = conta.getIdToken();
+            nomeUsuario = conta.getDisplayName();
+            fotoPerfilGoogle = String.valueOf(conta.getPhotoUrl());
+
+        } else {
+
+        }
+
+    }
+
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
-
     }
 
     @Override
     public void onProviderEnabled(String s) {
-
     }
 
     @Override
     public void onProviderDisabled(String s) {
-
     }
+
 }

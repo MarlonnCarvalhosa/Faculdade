@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,4 +14,41 @@
             android:layout_height="match_parent"
             tools:context=".MapsActivity" />
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+                <EditText
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Pesquisar Local"
+                    android:textColorHint="#000"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/background_edittext"/>
+
+                <Button
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_action_ir"/>
+
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/perfil_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="11.5dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_action_perfil"
+            android:focusableInTouchMode="true"/>
+
+
+</FrameLayout>
