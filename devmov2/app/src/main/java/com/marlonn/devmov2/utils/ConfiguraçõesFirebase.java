@@ -3,7 +3,6 @@ package com.marlonn.devmov2.utils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.marlonn.devmov2.utils.ConstantsUtils;
 
 public class ConfiguraçõesFirebase {
     private static DatabaseReference referenceFirebase;
@@ -18,5 +17,9 @@ public class ConfiguraçõesFirebase {
 
     public static Query getUsuario() {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_USUARIO);
+    }
+
+    public static Query getEvento() {
+        return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_EVENTO);
     }
 }

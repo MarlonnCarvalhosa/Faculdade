@@ -46,6 +46,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.marlonn.devmov2.DAO.DataBaseDAO;
+import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
 
 import java.io.Serializable;
@@ -68,6 +70,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int hora;
 
     private Usuario usuario = new Usuario();
+    private Evento evento = new Evento();
+    private String uidEvento;
     private String idUsuario;
     private String nomeUsuario;
     private String fotoPerfilGoogle;
@@ -126,11 +130,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onMapLongClick(LatLng latLng) {
 
                         abrirDialogo();
-
-                        LocationData locationData = new LocationData(latLng.latitude, latLng.longitude);
-                        mDatabase.child("usuario").child("eventos").child(firebaseAuth.getCurrentUser().getUid()).setValue(locationData);
-////////////////
-                        atualizarActivity();
+                        uploadEvento(latLng);
 
                     }
                 });
@@ -219,7 +219,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
 
             LocationData locationData = new LocationData(location.getLatitude(), location.getLongitude());
-            mDatabase.child("usuario").child("contas").child(firebaseAuth.getCurrentUser().getUid()).child("mylocation").setValue(locationData);
+            mDatabase.child("usuarios").child(firebaseAuth.getCurrentUser().getUid()).child("mylocation").setValue(locationData);
         }
 
 
@@ -453,6 +453,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
 
         }
+
+    }
+
+    private void uploadEvento (LatLng latLng) {
+        //atualizarActivity();
+
+        uidEvento = user.getUid();
+
+        evento.setIdEvento(uidEvento);
+        evento.setLatitude(String.valueOf(latLng.latitude));
+        evento.setLongitude(String.valueOf(latLng.longitude));
+
+        new DataBaseDAO().saveEvento(MapsActivity.this, evento);
 
     }
 

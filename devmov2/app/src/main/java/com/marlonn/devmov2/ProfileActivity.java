@@ -19,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.Query;
 import com.marlonn.devmov2.model.Usuario;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -40,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity  {
     private CircleImageView imageViewPhoto;
     private ImageView cover;
     private TextView nomeUsuario;
+    private Query queryPerfil;
 
     private String idUsuario;
     private String nome_Usuario;

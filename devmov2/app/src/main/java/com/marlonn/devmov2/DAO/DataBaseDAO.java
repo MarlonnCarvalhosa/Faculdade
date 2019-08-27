@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.marlonn.devmov2.MapsActivity;
+import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
 import com.marlonn.devmov2.utils.ConfiguraçõesFirebase;
 import com.marlonn.devmov2.utils.ConstantsUtils;
@@ -22,16 +22,27 @@ public class DataBaseDAO {
         usuario.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
         Log.v("teste save", usuario.getId());
         DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
-        reference.child(ConstantsUtils.BANCO_USUARIO).child("contas").child(String.valueOf(usuario.getIdUsuario())).child("infos").setValue(usuario);
+        reference.child(ConstantsUtils.BANCO_USUARIO).child(String.valueOf(usuario.getIdUsuario())).child("infos").setValue(usuario);
     }
 
-    public void updateSimpleInfoUser(MapsActivity mapsActivity, Usuario usuario) {
+    public void saveEvento(FragmentActivity activity, Evento evento) {
+        evento.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
+        Log.v("teste save", evento.getId());
         DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
-        reference.child(ConstantsUtils.BANCO_USUARIO).child(String.valueOf(usuario.getId())).setValue(usuario);
+        reference.child(ConstantsUtils.BANCO_EVENTO).child(String.valueOf(evento.getIdEvento())).child("local").setValue(evento);
+    }
+
+    public void updateSimpleEvento(FragmentActivity mapsActivity, Evento evento) {
+        DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
+        reference.child(ConstantsUtils.BANCO_EVENTO).child(String.valueOf(evento.getIdEvento())).child("info").setValue(evento);
     }
 
     public static Query getQuerryUsuario(String uId) {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_USUARIO);
+    }
+
+    public static Query getQuerryEvento(String uId) {
+        return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_EVENTO);
     }
 
 }
