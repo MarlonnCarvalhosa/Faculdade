@@ -129,7 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         LocationData locationData = new LocationData(latLng.latitude, latLng.longitude);
                         mDatabase.child("usuario").child("eventos").child(firebaseAuth.getCurrentUser().getUid()).setValue(locationData);
-
+////////////////
                         atualizarActivity();
 
                     }
