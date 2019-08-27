@@ -11,9 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marlonn.devmov2.model.Usuario;
@@ -21,6 +24,13 @@ import com.marlonn.devmov2.model.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity  {
+
+    static final int GOOGLE_SIGN = 123;
+    private static final String TAG = "GoogleActivity";
+    private static final int RC_SIGN_IN = 9001;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private GoogleApiClient googleApiClient;
+    private GoogleSignInClient mGoogleSignInClient;
 
     FirebaseAuth firebaseAuth;
     private Usuario usuario = new Usuario();
@@ -31,12 +41,15 @@ public class ProfileActivity extends AppCompatActivity  {
     private ImageView cover;
     private TextView nomeUsuario;
 
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String idUsuario;
+    private String nome_Usuario;
+    private String fotoPerfilGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         // changing the status bar color to transparent -----
 

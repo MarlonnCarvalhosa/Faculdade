@@ -2,15 +2,12 @@ package com.marlonn.devmov2;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,10 +24,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -38,7 +31,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
 import com.marlonn.devmov2.DAO.DataBaseDAO;
 import com.marlonn.devmov2.model.Usuario;
 
@@ -72,19 +64,32 @@ public class LoginDialog extends AppCompatDialogFragment {
         builder.setView(view);
         builder.setIcon(R.drawable.ic_action_warning);
         builder.setTitle("Efetue o Login!");
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setCancelable(true);
+        builder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if (firebaseAuth.getCurrentUser() == null) {
+
+                    Toast.makeText(getActivity(), "Precisa efetuar o login!" , Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    uploadUsuario();
+
+                }
 
             }
         });
+
+        logar();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -92,21 +97,37 @@ public class LoginDialog extends AppCompatDialogFragment {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        logar();
-
         return builder.create();
 
     }
 
-    public void logar () {
+    private void logar () {
 
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                signIn();
+                if (firebaseAuth.getCurrentUser() == null) {
+
+                    signIn();
+
+                } else {
+
+                    Toast.makeText(getActivity(), "Clique em Finaliza!" , Toast.LENGTH_LONG).show();
+                }
+
             }
         });
+
+    }
+
+    private  void uploadUsuario () {
+
+        usuario.setIdUsuario(idUsuario);
+        usuario.setNome(nomeUsuario);
+        usuario.setFotoPerfilGoogle(fotoPerfilGoogle);
+
+        new DataBaseDAO().saveUsuario(getActivity(), usuario);
 
     }
 
@@ -115,13 +136,13 @@ public class LoginDialog extends AppCompatDialogFragment {
         if (firebaseAuth.getCurrentUser() != null) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
-                Toast.makeText(getActivity(), "logado", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "logado", Toast.LENGTH_LONG).show();
             }
 
         }
 
         if (firebaseAuth.getCurrentUser() == null) {
-            Toast.makeText(getActivity(), "nao logado", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "nao logado", Toast.LENGTH_LONG).show();
             signIn();
         };
 
@@ -215,7 +236,7 @@ public class LoginDialog extends AppCompatDialogFragment {
         if (result.isSuccess()) {
 
             GoogleSignInAccount conta = result.getSignInAccount();
-            idUsuario = conta.getIdToken();
+            idUsuario = user.getUid();
             nomeUsuario = conta.getDisplayName();
             fotoPerfilGoogle = String.valueOf(conta.getPhotoUrl());
 

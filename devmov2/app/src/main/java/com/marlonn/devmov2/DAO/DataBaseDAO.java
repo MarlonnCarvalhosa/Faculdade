@@ -2,6 +2,8 @@ package com.marlonn.devmov2.DAO;
 
 import android.util.Log;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -16,11 +18,11 @@ public class DataBaseDAO {
     private int cont = 0;
 
 
-    public void saveUsuario(MapsActivity mapsActivity, Usuario usuario) {
+    public void saveUsuario(FragmentActivity activity, Usuario usuario) {
         usuario.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
         Log.v("teste save", usuario.getId());
         DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
-        reference.child(ConstantsUtils.BANCO_USUARIO).child(String.valueOf(usuario.getId())).setValue(usuario);
+        reference.child(ConstantsUtils.BANCO_USUARIO).child("contas").child(String.valueOf(usuario.getIdUsuario())).child("infos").setValue(usuario);
     }
 
     public void updateSimpleInfoUser(MapsActivity mapsActivity, Usuario usuario) {

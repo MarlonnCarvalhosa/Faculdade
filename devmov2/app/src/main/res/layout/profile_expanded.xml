@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/teste" />
+        android:src="@drawable/teste"
+        tools:ignore="ContentDescription" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/foto_perfil"
