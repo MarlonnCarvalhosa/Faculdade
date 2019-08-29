@@ -33,6 +33,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -46,7 +47,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.marlonn.devmov2.DAO.DataBaseDAO;
 import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
 
@@ -65,6 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private Marker currentLocationMaker;
     private LatLng currentLocationLatLong;
+    private LocationData locationData;
     private DatabaseReference mDatabase;
     private ImageButton btn_perfil;
     private int hora;
@@ -101,6 +102,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        startGettingLocations();
+
     }
 
     /**
@@ -129,9 +132,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onMapLongClick(LatLng latLng) {
 
+                        locationData = new LocationData(latLng.latitude, latLng.longitude);
                         abrirDialogo();
-                        uploadEvento(latLng);
-
                     }
                 });
 
@@ -173,7 +175,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (firebaseAuth.getCurrentUser() == null) {
             Toast.makeText(MapsActivity.this, "nao logado", Toast.LENGTH_LONG).show();
-        };
+        }
 
 
 
@@ -207,21 +209,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(currentLocationLatLong);
         markerOptions.title("Localização atual");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        markerOptions.icon(icon);
+        try{
+            markerOptions.title(firebaseAuth.getCurrentUser().getDisplayName());
+        }catch (Exception e){
+            markerOptions.title("Eu");
+        }
+
         currentLocationMaker = mMap.addMarker(markerOptions);
 
         //Move to new location
         CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).target(currentLocationLatLong).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        if (firebaseAuth.getCurrentUser() == null) {
-
-        } else {
+        if (firebaseAuth.getCurrentUser() != null) {
 
             LocationData locationData = new LocationData(location.getLatitude(), location.getLongitude());
             mDatabase.child("usuarios").child(firebaseAuth.getCurrentUser().getUid()).child("mylocation").setValue(locationData);
-        }
 
+        }
 
 
         //Toast.makeText(this, "Localização atualizada", Toast.LENGTH_SHORT).show();
@@ -349,7 +356,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         } else {
 
-            mDatabase.child("usuario").child("eventos").addListenerForSingleValueEvent(
+            mDatabase.child("usuarios").child(user.getUid()).child("eventos").addListenerForSingleValueEvent(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -384,7 +391,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void addGreenMarker(Usuario usuario, LatLng latLng) {
+    private void addGreenMarker(Usuario usuario , LatLng latLng) {
         //SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -397,6 +404,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 abrirDialogo();
             }
         });
+
     }
 
     private void atualizarActivity() {
@@ -411,7 +419,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void abrirDialogo() {
 
-        AdicionarEventoDialog adicionarEventoDialog = new AdicionarEventoDialog();
+        AdicionarEventoDialog adicionarEventoDialog = AdicionarEventoDialog.newInstance(locationData);
         adicionarEventoDialog.show(getSupportFragmentManager(), " Eventos");
 
     }
@@ -453,19 +461,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
 
         }
-
-    }
-
-    private void uploadEvento (LatLng latLng) {
-        //atualizarActivity();
-
-        uidEvento = user.getUid();
-
-        evento.setIdEvento(uidEvento);
-        evento.setLatitude(String.valueOf(latLng.latitude));
-        evento.setLongitude(String.valueOf(latLng.longitude));
-
-        new DataBaseDAO().saveEvento(MapsActivity.this, evento);
 
     }
 

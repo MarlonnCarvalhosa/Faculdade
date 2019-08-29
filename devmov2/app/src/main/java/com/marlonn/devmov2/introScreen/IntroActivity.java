@@ -71,9 +71,9 @@ public class IntroActivity extends AppCompatActivity {
         // fill list screen
 
         final List<ScreenItem> mList = new ArrayList<>();
-        mList.add(new ScreenItem("Fresh Food","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, consectetur  consectetur adipiscing elit",R.drawable.img1));
-        mList.add(new ScreenItem("Fast Delivery","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, consectetur  consectetur adipiscing elit",R.drawable.img2));
-        mList.add(new ScreenItem("Easy Payment","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, consectetur  consectetur adipiscing elit",R.drawable.img3));
+        mList.add(new ScreenItem("Seja Bem Vindo!","Olá, Seja Bem Vindo ao app, é muito gratificante telo conosco.",R.drawable.icone));
+        mList.add(new ScreenItem("Nome do app aqui","Aplicativo perfeito para encontrar eventos próximos a você. Se desejar, poderá também criar seu próprio evento que ficará visível a todos.",R.drawable.icone));
+        mList.add(new ScreenItem("Como funciona?","O funcionamento é simples, para visualizar a descrição de um evento, basta tocar nele. Para criar um evento é necessário ter feito o login, aṕos isto, é só clicar e segurar no local do mapa onde queira criar o evento e preencher as informaçÕes necessárias.",R.drawable.icone));
 
         // setup viewpager
         screenPager =findViewById(R.id.screen_viewpager);

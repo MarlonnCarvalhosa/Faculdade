@@ -22,19 +22,20 @@ public class DataBaseDAO {
         usuario.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
         Log.v("teste save", usuario.getId());
         DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
-        reference.child(ConstantsUtils.BANCO_USUARIO).child(String.valueOf(usuario.getIdUsuario())).child("infos").setValue(usuario);
+        reference.child(ConstantsUtils.BANCO_USUARIO).child(String.valueOf(usuario.getIdUsuario())).child("dados").setValue(usuario);
     }
 
     public void saveEvento(FragmentActivity activity, Evento evento) {
         evento.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
         Log.v("teste save", evento.getId());
         DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
-        reference.child(ConstantsUtils.BANCO_EVENTO).child(String.valueOf(evento.getIdEvento())).child("local").setValue(evento);
+        reference.child(ConstantsUtils.BANCO_USUARIO).child(String.valueOf(evento.getIdEvento())).child("eventos").child(evento.getId()).setValue(evento);
     }
 
     public void updateSimpleEvento(FragmentActivity mapsActivity, Evento evento) {
+        evento.setId(ConfiguraçõesFirebase.getFirebase().push().getKey());
         DatabaseReference reference = ConfiguraçõesFirebase.getFirebase();
-        reference.child(ConstantsUtils.BANCO_EVENTO).child(String.valueOf(evento.getIdEvento())).child("info").setValue(evento);
+        reference.child(ConstantsUtils.BANCO_EVENTO).child(String.valueOf(evento.getIdEvento())).child("infos").child(evento.getId()).setValue(evento);
     }
 
     public static Query getQuerryUsuario(String uId) {

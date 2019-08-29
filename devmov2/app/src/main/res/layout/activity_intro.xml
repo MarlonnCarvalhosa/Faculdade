@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".introScreen.IntroActivity"
-    android:background="#ffffff">
+    android:background="@drawable/fundo_intro">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/screen_viewpager"
@@ -25,11 +25,11 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="16dp"
-        android:background="#fff"
-        android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
-        android:drawableTint="@color/gradient_start_color"
-        android:text="Proximo"
-        android:textColor="@color/gradient_start_color"
+        android:background="@drawable/background_btn2"
+        android:drawableRight="@drawable/ic_action_next"
+        android:drawableTint="#FFFFFF"
+        android:text="Próximo"
+        android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -70,7 +70,7 @@
     <TextView
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="#2d2d2d"
+        android:textColor="#fff"
         android:id="@+id/tv_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,6 +78,8 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:text="Pular"
+        android:background="@drawable/background_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

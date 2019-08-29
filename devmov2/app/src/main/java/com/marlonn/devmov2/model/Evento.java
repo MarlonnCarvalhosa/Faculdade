@@ -10,11 +10,11 @@ public class Evento implements Serializable {
     private String inicioDoEvento;
     private String fimDoEvento;
     private String descricaoDoEvento;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
     private Boolean eventoOn;
 
-    public Evento(String id, String idEvento, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, boolean eventoOn, String latitude, String longitude) {
+    public Evento(String id, String idEvento, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, boolean eventoOn, double latitude, double longitude) {
 
         this.id = id;
         this.idEvento = idEvento;
@@ -86,19 +86,19 @@ public class Evento implements Serializable {
         this.eventoOn = eventoOn;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }
