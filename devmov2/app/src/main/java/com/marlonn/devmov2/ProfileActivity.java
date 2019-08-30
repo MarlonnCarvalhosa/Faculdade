@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
 import com.marlonn.devmov2.model.Usuario;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,6 +53,8 @@ public class ProfileActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         // changing the status bar color to transparent -----
 
@@ -112,6 +115,13 @@ public class ProfileActivity extends AppCompatActivity  {
 
             }
         });
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            nomeUsuario.setText(firebaseAuth.getCurrentUser().getDisplayName());
+            Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(imageViewPhoto);
+            Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(cover);
+            //Glide.with(ProfileActivity.this).load(firebaseAuth.getCurrentUser().getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(imageViewPhoto);
+        }
 
     }
 

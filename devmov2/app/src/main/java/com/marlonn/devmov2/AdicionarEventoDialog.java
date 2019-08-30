@@ -58,7 +58,7 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
         }
 
         builder.setView(view);
-        builder.setTitle("Adicionar Evento");
+        builder.setTitle("Crie um evento!");
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,11 +48,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, Serializable {
 
@@ -67,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng currentLocationLatLong;
     private LocationData locationData;
     private DatabaseReference mDatabase;
-    private ImageButton btn_perfil;
+    private CircleImageView btn_perfil;
     private int hora;
 
     private Usuario usuario = new Usuario();
@@ -89,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        btn_perfil = (ImageButton) findViewById(R.id.perfil_btn);
+        btn_perfil = (CircleImageView) findViewById(R.id.perfil_btn);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -107,7 +109,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Manipulates the map once available.
+     * Manipulates the map once available.rameLayout
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
      * we just add a marker near Sydney, Australia.
@@ -125,6 +127,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (firebaseAuth.getCurrentUser() != null) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(btn_perfil);
 
             if (user != null) {
 
@@ -177,8 +181,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(MapsActivity.this, "nao logado", Toast.LENGTH_LONG).show();
         }
 
-
-
         Calendar c = Calendar.getInstance();
         hora = c.get(Calendar.HOUR_OF_DAY);
 
@@ -204,6 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (currentLocationMaker != null) {
             currentLocationMaker.remove();
         }
+
         //Add marker
         currentLocationLatLong = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
@@ -385,23 +388,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //Date newDate = new Date(Long.valueOf(entry.getKey()));
             Map singleLocation = (Map) entry.getValue();
             LatLng latLng = new LatLng((Double) singleLocation.get("latitude"), (Double)singleLocation.get("longitude"));
-            addGreenMarker(usuario, latLng);
+            addGreenMarker(evento, latLng);
 
         }
 
     }
 
-    private void addGreenMarker(Usuario usuario , LatLng latLng) {
+    private void addGreenMarker(Evento evento, LatLng latLng) {
         //SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        //markerOptions.title(dt.format(newDate)); //Nome Evento
+        //markerOptions.title(); //Nome Evento
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mMap.addMarker(markerOptions);
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                abrirDialogo();
+                Toast.makeText(MapsActivity.this, "Teste", Toast.LENGTH_LONG).show();
             }
         });
 

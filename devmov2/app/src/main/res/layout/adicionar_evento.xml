@@ -6,29 +6,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/add_foto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_action_adicionar_foto"/>
 
-    <EditText
-        android:id="@+id/edt_nomeEvento"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome do Evento"/>
+        android:layout_marginTop="10dp">
 
-    <EditText
-        android:id="@+id/edt_dataInicioEvento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Data de Inicio"/>
+        <EditText
+            android:id="@+id/edt_nomeEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nome do Evento"/>
 
-    <EditText
-        android:id="@+id/edt_dataFimEvento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Data de Fim"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/edt_descricao"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Descrição"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edt_dataInicioEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="dd/mm/aaaa data inicio"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edt_dataFimEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="dd/mm/aaaa data fim"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edt_horaInicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hh:mm hora inicio"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edt_horaTerminar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hh/mm hora fim"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edt_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descrição"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>
