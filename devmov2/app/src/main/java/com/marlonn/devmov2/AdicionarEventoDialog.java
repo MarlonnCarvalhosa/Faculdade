@@ -104,7 +104,7 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
 
         uidEvento = user.getUid();
 
-        evento.setIdEvento(uidEvento);
+        evento.setIdUsuario(uidEvento);
         evento.setNomeDoEvento(nomeDoEvento.getText().toString());
         evento.setDescricaoDoEvento(descricaoEvento.getText().toString());
         evento.setFimDoEvento(dataFimEvento.getText().toString());

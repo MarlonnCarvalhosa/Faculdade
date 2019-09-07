@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -83,6 +85,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_maps);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -103,8 +110,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleApiClient = new GoogleApiClient.Builder(MapsActivity.this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-        startGettingLocations();
 
     }
 
@@ -196,6 +201,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.e("MapActivity", "Can't find style. Error: ", e);
             }
 
+        } else {
+
+            try {
+                boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.mapstyleold));
+
+                if (!success) {
+                    Log.e("MapActivity", "Style parsing failed.");
+                }
+            } catch (Resources.NotFoundException e) {
+                Log.e("MapActivity", "Can't find style. Error: ", e);
+            }
+
         }
 
     }
@@ -223,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLocationMaker = mMap.addMarker(markerOptions);
 
         //Move to new location
-        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).target(currentLocationLatLong).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(14).target(currentLocationLatLong).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         if (firebaseAuth.getCurrentUser() != null) {
@@ -353,13 +370,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void getMarkers(){
 
-        if (firebaseAuth.getCurrentUser() == null) {
-
-            //signIn();
-
-        } else {
-
-            mDatabase.child("usuarios").child(user.getUid()).child("eventos").addListenerForSingleValueEvent(
+            mDatabase.child("eventos").addListenerForSingleValueEvent(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -374,10 +385,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
 
                     });
-
-        }
-
-
 
     }
 

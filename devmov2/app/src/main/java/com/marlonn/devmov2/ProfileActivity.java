@@ -94,28 +94,6 @@ public class ProfileActivity extends AppCompatActivity  {
 
         });
 
-        cover.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onClick(View view) {
-
-                if (!isOpen) {
-                    TransitionManager.beginDelayedTransition(constraintLayout);
-                    layout2.applyTo(constraintLayout);
-                    isOpen = !isOpen ;
-                }
-
-                else {
-
-                    TransitionManager.beginDelayedTransition(constraintLayout);
-                    layout1.applyTo(constraintLayout);
-                    isOpen = !isOpen ;
-
-                }
-
-            }
-        });
-
         if (firebaseAuth.getCurrentUser() != null) {
             nomeUsuario.setText(firebaseAuth.getCurrentUser().getDisplayName());
             Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(imageViewPhoto);

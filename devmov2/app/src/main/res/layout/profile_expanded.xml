@@ -9,13 +9,12 @@
 
     <ImageView
         android:id="@+id/cover"
-        android:layout_width="0dp"
-        android:layout_height="350dp"
-        android:scaleType="centerCrop"
+        android:layout_width="436dp"
+        android:layout_height="308dp"
+        android:src="@drawable/cover"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/cover"
         tools:ignore="ContentDescription" />
 
     <de.hdodenhof.circleimageview.CircleImageView

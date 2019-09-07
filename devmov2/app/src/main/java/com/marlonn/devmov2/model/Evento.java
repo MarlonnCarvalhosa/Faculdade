@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Evento implements Serializable {
 
-    private String id;
     private String idEvento;
+    private String idUsuario;
     private String nomeDoEvento;
     private String inicioDoEvento;
     private String fimDoEvento;
@@ -16,10 +16,10 @@ public class Evento implements Serializable {
     private double longitude;
     private Boolean eventoOn;
 
-    public Evento(String id, String idEvento, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, String horaDeInicio, String horaDeTerminar, boolean eventoOn, double latitude, double longitude) {
+    public Evento(String idEvento, String idUsuario, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, String horaDeInicio, String horaDeTerminar, boolean eventoOn, double latitude, double longitude) {
 
-        this.id = id;
         this.idEvento = idEvento;
+        this.idUsuario = idUsuario;
         this.nomeDoEvento = nomeDoEvento;
         this.inicioDoEvento = inicioDoEvento;
         this.fimDoEvento = fimDoEvento;
@@ -31,16 +31,7 @@ public class Evento implements Serializable {
         this.longitude = longitude;
     }
 
-    public Evento () {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    public Evento () {}
 
     public String getIdEvento() {
         return idEvento;
@@ -48,6 +39,14 @@ public class Evento implements Serializable {
 
     public void setIdEvento(String idEvento) {
         this.idEvento = idEvento;
+    }
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNomeDoEvento() {
