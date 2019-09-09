@@ -34,6 +34,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.marlonn.devmov2.DAO.DataBaseDAO;
 import com.marlonn.devmov2.model.Usuario;
 
+import java.util.Objects;
+
 public class LoginDialog extends AppCompatDialogFragment {
 
     static final int GOOGLE_SIGN = 123;
@@ -175,7 +177,7 @@ public class LoginDialog extends AppCompatDialogFragment {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            getActivity().recreate();
+                            Objects.requireNonNull(getActivity()).recreate();
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                         }
@@ -244,6 +246,13 @@ public class LoginDialog extends AppCompatDialogFragment {
 
         }
 
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        this.onCreate(null);
     }
 
 }

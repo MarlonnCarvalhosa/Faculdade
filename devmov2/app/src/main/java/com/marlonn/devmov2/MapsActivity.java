@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -71,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng currentLocationLatLong;
     private LocationData locationData;
     private DatabaseReference mDatabase;
-    private CircleImageView btn_perfil;
+    private CircleImageView btn_perfil, btn_mylocation;
     private int hora;
 
     private Usuario usuario = new Usuario();
@@ -98,7 +99,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        btn_perfil = (CircleImageView) findViewById(R.id.perfil_btn);
+        btn_perfil = findViewById(R.id.perfil_btn);
+        btn_mylocation = findViewById(R.id.btn_my_location);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -122,6 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -182,6 +185,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
+        btn_mylocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startGettingLocations();
+
+            }
+        });
+
+
         if (firebaseAuth.getCurrentUser() == null) {
             Toast.makeText(MapsActivity.this, "nao logado", Toast.LENGTH_LONG).show();
         }
@@ -200,6 +213,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (Resources.NotFoundException e) {
                 Log.e("MapActivity", "Can't find style. Error: ", e);
             }
+
+            btn_mylocation.setImageDrawable(getDrawable(R.drawable.ic_action_my_location_dark));
 
         } else {
 
@@ -240,7 +255,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLocationMaker = mMap.addMarker(markerOptions);
 
         //Move to new location
-        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(14).target(currentLocationLatLong).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).target(currentLocationLatLong).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         if (firebaseAuth.getCurrentUser() != null) {

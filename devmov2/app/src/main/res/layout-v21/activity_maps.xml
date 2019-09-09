@@ -28,7 +28,8 @@
                     android:textColorHint="#000"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:background="@drawable/background_edittext"/>
+                    android:background="@drawable/background_edittext"
+                    android:importantForAutofill="no" />
 
                 <Button
                     android:layout_width="24dp"
@@ -50,14 +51,13 @@
             android:src="@drawable/ic_action_perfil"
             android:focusableInTouchMode="true"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/btn_my_location"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="end|bottom"
-            android:layout_margin="11.5dp"
-            android:backgroundTint="@color/transparent"
-            android:clickable="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
             android:src="@drawable/ic_action_my_location" />
 
 
