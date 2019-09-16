@@ -19,7 +19,7 @@ public class ConfiguraçõesFirebase {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_USUARIO);
     }
 
-    public static Query getEvento() {
+    public static Query getEventos() {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_EVENTO);
     }
 }

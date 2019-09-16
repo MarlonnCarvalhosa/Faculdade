@@ -14,13 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.Query;
-import com.marlonn.devmov2.model.Usuario;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -33,21 +32,15 @@ public class ProfileActivity extends AppCompatActivity  {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private GoogleApiClient googleApiClient;
     private GoogleSignInClient mGoogleSignInClient;
+    private RecyclerView recyclerView;
 
     FirebaseAuth firebaseAuth;
-    private Usuario usuario = new Usuario();
     private boolean isOpen = false ;
     private ConstraintSet layout1,layout2;
     private ConstraintLayout constraintLayout ;
     private CircleImageView imageViewPhoto;
     private ImageView cover;
     private TextView nomeUsuario;
-    private Query queryPerfil;
-
-    private String idUsuario;
-    private String nome_Usuario;
-    private String fotoPerfilGoogle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

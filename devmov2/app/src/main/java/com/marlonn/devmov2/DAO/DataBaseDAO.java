@@ -42,7 +42,7 @@ public class DataBaseDAO {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_USUARIO);
     }
 
-    public static Query getQuerryEvento(String uId) {
+    public static Query getQuerryEvento(String uid) {
         return FirebaseDatabase.getInstance().getReference(ConstantsUtils.BANCO_EVENTO);
     }
 

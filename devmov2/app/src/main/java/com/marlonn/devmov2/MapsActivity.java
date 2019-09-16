@@ -95,7 +95,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -255,7 +254,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLocationMaker = mMap.addMarker(markerOptions);
 
         //Move to new location
-        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).target(currentLocationLatLong).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(14).target(currentLocationLatLong).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         if (firebaseAuth.getCurrentUser() != null) {
@@ -407,7 +406,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for (Map.Entry<String, Object> entry : locations.entrySet()){
 
-            //Date newDate = new Date(Long.valueOf(entry.getKey()));
             Map singleLocation = (Map) entry.getValue();
             LatLng latLng = new LatLng((Double) singleLocation.get("latitude"), (Double)singleLocation.get("longitude"));
             addGreenMarker(evento, latLng);
@@ -423,10 +421,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //markerOptions.title(); //Nome Evento
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mMap.addMarker(markerOptions);
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(MapsActivity.this, "Teste", Toast.LENGTH_LONG).show();
+            public boolean onMarkerClick(Marker marker) {
+
+                abrirDialogoDescricao();
+
+                return false;
             }
         });
 
@@ -442,6 +443,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void abrirDialogoDescricao() {
+
+        DescricaoEventoDialog descricaoEventoDialog = new DescricaoEventoDialog();
+        descricaoEventoDialog.show(getSupportFragmentManager(), " descricao");
+
+    }
+
     private void abrirDialogo() {
 
         AdicionarEventoDialog adicionarEventoDialog = AdicionarEventoDialog.newInstance(locationData);
@@ -452,7 +460,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void abrirDialogoLogin() {
 
         LoginDialog loginDialog = new LoginDialog();
-        loginDialog.show(getSupportFragmentManager(), " Eventos");
+        loginDialog.show(getSupportFragmentManager(), " login");
 
     }
 
