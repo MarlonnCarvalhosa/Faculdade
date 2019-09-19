@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Evento implements Serializable {
 
-    private String idEvento;
+    private String id;
     private String idUsuario;
     private String nomeDoEvento;
     private String inicioDoEvento;
@@ -16,9 +16,9 @@ public class Evento implements Serializable {
     private double longitude;
     private Boolean eventoOn;
 
-    public Evento(String idEvento, String idUsuario, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, String horaDeInicio, String horaDeTerminar, boolean eventoOn, double latitude, double longitude) {
+    public Evento(String id, String idUsuario, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, String horaDeInicio, String horaDeTerminar, boolean eventoOn, double latitude, double longitude) {
 
-        this.idEvento = idEvento;
+        this.id = id;
         this.idUsuario = idUsuario;
         this.nomeDoEvento = nomeDoEvento;
         this.inicioDoEvento = inicioDoEvento;
@@ -33,12 +33,12 @@ public class Evento implements Serializable {
 
     public Evento () {}
 
-    public String getIdEvento() {
-        return idEvento;
+    public String getId() {
+        return id;
     }
 
-    public void setIdEvento(String idEvento) {
-        this.idEvento = idEvento;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getIdUsuario() {

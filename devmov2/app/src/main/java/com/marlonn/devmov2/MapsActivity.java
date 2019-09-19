@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
@@ -56,7 +58,6 @@ import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -75,12 +76,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CircleImageView btn_perfil, btn_mylocation;
     private int hora;
 
+    private ArrayList<Evento> eventos;
     private Usuario usuario = new Usuario();
     private Evento evento = new Evento();
     private String uidEvento;
     private String idUsuario;
+    private Query query;
     private String nomeUsuario;
     private String fotoPerfilGoogle;
+    private TextView nomeDoEvento, descricaoDoEvento;
 
 
     @Override
@@ -90,6 +94,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        nomeDoEvento = findViewById(R.id.txt_nome_evento);
+        descricaoDoEvento = findViewById(R.id.txt_decricao_evento);
 
         setContentView(R.layout.activity_maps);
 
@@ -112,6 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        eventos = new ArrayList<>();
     }
 
     /**
@@ -254,7 +262,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLocationMaker = mMap.addMarker(markerOptions);
 
         //Move to new location
-        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(14).target(currentLocationLatLong).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).target(currentLocationLatLong).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         if (firebaseAuth.getCurrentUser() != null) {
@@ -388,37 +396,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            //Get map of users in datasnapshot
-                            if (dataSnapshot.getValue() != null)
-                                getAllLocations((Map<String,Object>) dataSnapshot.getValue());
+                            if (dataSnapshot.getValue(Evento.class) != null) {
+                                for(DataSnapshot data : dataSnapshot.getChildren()){
+                                    Evento evento = data.getValue(Evento.class);
+                                    evento.setId(data.getKey());
+                                    eventos.add(evento);
+
+                                }
+
+
+                                getAllLocations();
+                            }
+
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            //handle databaseError
                         }
 
                     });
 
     }
 
-    private void getAllLocations(Map<String,Object> locations) {
+    private void getAllLocations() {
 
-        for (Map.Entry<String, Object> entry : locations.entrySet()){
+        for(Evento evento: eventos){
 
-            Map singleLocation = (Map) entry.getValue();
-            LatLng latLng = new LatLng((Double) singleLocation.get("latitude"), (Double)singleLocation.get("longitude"));
-            addGreenMarker(evento, latLng);
-
+            addGreenMarker(evento);
         }
+
 
     }
 
-    private void addGreenMarker(Evento evento, LatLng latLng) {
+
+    private void addGreenMarker(Evento evento) {
         //SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         MarkerOptions markerOptions = new MarkerOptions();
+        LatLng latLng = new LatLng(evento.getLatitude(), evento.getLongitude());
         markerOptions.position(latLng);
-        //markerOptions.title(); //Nome Evento
+        markerOptions.title(evento.getId());
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mMap.addMarker(markerOptions);
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -429,6 +445,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 return false;
             }
+
         });
 
     }

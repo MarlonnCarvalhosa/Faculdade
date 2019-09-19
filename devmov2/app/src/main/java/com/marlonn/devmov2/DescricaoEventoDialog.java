@@ -52,7 +52,7 @@ public class DescricaoEventoDialog extends AppCompatDialogFragment {
 
         idCampo(view);
         //initView(view);
-        preencherLista();
+        //preencherLista();
 
         return view;
     }
