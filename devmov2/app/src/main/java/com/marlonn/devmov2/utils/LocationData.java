@@ -1,4 +1,4 @@
-package com.marlonn.devmov2;
+package com.marlonn.devmov2.utils;
 
 public class LocationData {
 

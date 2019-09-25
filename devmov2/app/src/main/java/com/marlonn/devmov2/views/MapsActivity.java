@@ -1,4 +1,4 @@
-package com.marlonn.devmov2;
+package com.marlonn.devmov2.views;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -50,6 +50,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.marlonn.devmov2.utils.LocationData;
+import com.marlonn.devmov2.R;
 import com.marlonn.devmov2.fragments.AdicionarEventoDialog;
 import com.marlonn.devmov2.fragments.DescricaoEventoDialog;
 import com.marlonn.devmov2.fragments.LoginDialog;
@@ -75,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationData locationData;
     private DatabaseReference mDatabase;
     private CircleImageView btn_perfil, btn_mylocation;
-    private ArrayList<Evento> eventos;
+    private ArrayList<Evento>  eventos = new ArrayList<>();
     private Usuario usuario = new Usuario();
     private Evento evento = new Evento();
     private String uidEvento, idUsuario, nomeUsuario, fotoPerfilGoogle;
@@ -90,20 +92,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        setContentView(R.layout.activity_maps);
         nomeDoEvento = findViewById(R.id.txt_nome_evento);
         descricaoDoEvento = findViewById(R.id.txt_decricao_evento);
-
-        setContentView(R.layout.activity_maps);
-
+        btn_perfil = findViewById(R.id.perfil_btn);
+        btn_mylocation = findViewById(R.id.btn_my_location);
         firebaseAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        btn_perfil = findViewById(R.id.perfil_btn);
-        btn_mylocation = findViewById(R.id.btn_my_location);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -113,14 +111,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleApiClient = new GoogleApiClient.Builder(MapsActivity.this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-        eventos = new ArrayList<>();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         startGettingLocations();
         getMarkers();
 
@@ -382,12 +377,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
 
                 });
+
     }
 
     private void getAllLocations() {
-
         for(Evento evento: eventos){
-
             addRedMarkers(evento);
         }
 
@@ -404,11 +398,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onInfoWindowClick(Marker marker) {
 
-                Evento evento = getEventos((String) marker.getTag());
-                new DescricaoEventoDialog().show(getSupportFragmentManager(), "informacao");
+                Evento evento = getEventos(marker.getTag().toString());
+                DescricaoEventoDialog.newInstance(evento).show(getSupportFragmentManager(), "evento");
 
             }
+
         });
+
     }
 
     private Evento getEventos(String id) {
@@ -448,8 +444,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             idUsuario = user.getUid();
             nomeUsuario = conta.getDisplayName();
             fotoPerfilGoogle = String.valueOf(conta.getPhotoUrl());
-
-        } else {
 
         }
 

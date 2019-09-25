@@ -1,4 +1,4 @@
-package com.marlonn.devmov2;
+package com.marlonn.devmov2.views;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.marlonn.devmov2.R;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -91,7 +92,6 @@ public class ProfileActivity extends AppCompatActivity  {
             nomeUsuario.setText(firebaseAuth.getCurrentUser().getDisplayName());
             Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(imageViewPhoto);
             Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(cover);
-            //Glide.with(ProfileActivity.this).load(firebaseAuth.getCurrentUser().getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(imageViewPhoto);
         }
 
     }

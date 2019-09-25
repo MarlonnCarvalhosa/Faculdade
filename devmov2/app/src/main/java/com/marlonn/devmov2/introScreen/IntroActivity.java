@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.marlonn.devmov2.MapsActivity;
+import com.marlonn.devmov2.views.MapsActivity;
 import com.marlonn.devmov2.R;
 
 import java.util.ArrayList;
