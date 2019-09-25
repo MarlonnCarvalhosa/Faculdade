@@ -15,14 +15,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.marlonn.devmov2.R;
 import com.marlonn.devmov2.model.Evento;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterEventos extends RecyclerView.Adapter<com.marlonn.devmov2.adapter.AdapterEventos.ViewHolder> {
 
     private FragmentActivity activity;
     private List<Evento> eventos;
-    private Evento evento = new Evento();
     private FirebaseUser currentFirebaseUser;
     private FirebaseAuth auth;
 
@@ -48,11 +47,9 @@ public class AdapterEventos extends RecyclerView.Adapter<com.marlonn.devmov2.ada
         }
     }
 
-    public void atualiza(List<Evento> eventos){
-        Collections.reverse(eventos);
+    public void atualiza(ArrayList<Evento> eventos){
         this.eventos = eventos;
-        this.notifyDataSetChanged();
-
+        notifyDataSetChanged();
     }
 
     @NonNull

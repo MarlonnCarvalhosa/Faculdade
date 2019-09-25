@@ -49,8 +49,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.marlonn.devmov2.fragments.AdicionarEventoDialog;
+import com.marlonn.devmov2.fragments.DescricaoEventoDialog;
+import com.marlonn.devmov2.fragments.LoginDialog;
 import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
 import com.squareup.picasso.Picasso;
@@ -64,7 +66,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, Serializable {
 
     private GoogleMap mMap;
-
     private GoogleApiClient googleApiClient;
     private GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth firebaseAuth;
@@ -74,18 +75,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationData locationData;
     private DatabaseReference mDatabase;
     private CircleImageView btn_perfil, btn_mylocation;
-    private int hora;
-
     private ArrayList<Evento> eventos;
     private Usuario usuario = new Usuario();
     private Evento evento = new Evento();
-    private String uidEvento;
-    private String idUsuario;
-    private Query query;
-    private String nomeUsuario;
-    private String fotoPerfilGoogle;
+    private String uidEvento, idUsuario, nomeUsuario, fotoPerfilGoogle;
     private TextView nomeDoEvento, descricaoDoEvento;
-
+    private int hora;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,15 +117,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         eventos = new ArrayList<>();
     }
 
-    /**
-     * Manipulates the map once available.rameLayout
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -152,7 +138,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onMapLongClick(LatLng latLng) {
 
                         locationData = new LocationData(latLng.latitude, latLng.longitude);
-                        abrirDialogo();
+                        AdicionarEventoDialog adicionarEventoDialog = AdicionarEventoDialog.newInstance(locationData);
+                        adicionarEventoDialog.show(getSupportFragmentManager(), " Eventos");
                     }
                 });
 
@@ -217,23 +204,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (!success) {
                     Log.e("MapActivity", "Style parsing failed.");
                 }
+
             } catch (Resources.NotFoundException e) {
                 Log.e("MapActivity", "Can't find style. Error: ", e);
             }
 
             btn_mylocation.setImageDrawable(getDrawable(R.drawable.ic_action_my_location_dark));
-
-        } else {
-
-            try {
-                boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.mapstyleold));
-
-                if (!success) {
-                    Log.e("MapActivity", "Style parsing failed.");
-                }
-            } catch (Resources.NotFoundException e) {
-                Log.e("MapActivity", "Can't find style. Error: ", e);
-            }
 
         }
 
@@ -246,7 +222,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentLocationMaker.remove();
         }
 
-        //Add marker
         currentLocationLatLong = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(currentLocationLatLong);
@@ -261,7 +236,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         currentLocationMaker = mMap.addMarker(markerOptions);
 
-        //Move to new location
         CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).target(currentLocationLatLong).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
@@ -271,9 +245,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mDatabase.child("usuarios").child(firebaseAuth.getCurrentUser().getUid()).child("mylocation").setValue(locationData);
 
         }
-
-
-        //Toast.makeText(this, "Localização atualizada", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -322,7 +293,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         alertDialog.show();
     }
 
-
     private void startGettingLocations() {
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -357,7 +327,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-
         //Checks if FINE LOCATION and COARSE Location were granted
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -391,93 +360,65 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void getMarkers(){
+        mDatabase.child("eventos").addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue(Evento.class) != null) {
+                            for(DataSnapshot data : dataSnapshot.getChildren()){
+                                Evento evento = data.getValue(Evento.class);
+                                evento.setId(data.getKey());
+                                eventos.add(evento);
 
-            mDatabase.child("eventos").addListenerForSingleValueEvent(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue(Evento.class) != null) {
-                                for(DataSnapshot data : dataSnapshot.getChildren()){
-                                    Evento evento = data.getValue(Evento.class);
-                                    evento.setId(data.getKey());
-                                    eventos.add(evento);
-
-                                }
-
-
-                                getAllLocations();
                             }
 
+                            getAllLocations();
                         }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
+                    }
 
-                    });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
 
+                });
     }
 
     private void getAllLocations() {
 
         for(Evento evento: eventos){
 
-            addGreenMarker(evento);
+            addRedMarkers(evento);
         }
 
-
     }
 
-
-    private void addGreenMarker(Evento evento) {
-        //SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-        MarkerOptions markerOptions = new MarkerOptions();
+    private void addRedMarkers(Evento evento) {
         LatLng latLng = new LatLng(evento.getLatitude(), evento.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title(evento.getId());
+        markerOptions.title(evento.getNomeDoEvento());
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mMap.addMarker(markerOptions);
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public void onInfoWindowClick(Marker marker) {
 
-                abrirDialogoDescricao();
+                Evento evento = getEventos((String) marker.getTag());
+                new DescricaoEventoDialog().show(getSupportFragmentManager(), "informacao");
 
-                return false;
             }
-
         });
-
     }
 
-    private void atualizarActivity() {
+    private Evento getEventos(String id) {
 
-        recreate();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
-
-    }
-
-    private void abrirDialogoDescricao() {
-
-        DescricaoEventoDialog descricaoEventoDialog = new DescricaoEventoDialog();
-        descricaoEventoDialog.show(getSupportFragmentManager(), " descricao");
-
-    }
-
-    private void abrirDialogo() {
-
-        AdicionarEventoDialog adicionarEventoDialog = AdicionarEventoDialog.newInstance(locationData);
-        adicionarEventoDialog.show(getSupportFragmentManager(), " Eventos");
-
-    }
-
-    private void abrirDialogoLogin() {
-
-        LoginDialog loginDialog = new LoginDialog();
-        loginDialog.show(getSupportFragmentManager(), " login");
+        for(Evento evento : eventos){
+            if(evento.getIdUsuario().equalsIgnoreCase(id)){
+                return evento;
+            }
+        }
+        return new Evento();
 
     }
 
@@ -511,6 +452,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
 
         }
+
+    }
+
+    private void abrirDialogoLogin() {
+
+        LoginDialog loginDialog = new LoginDialog();
+        loginDialog.show(getSupportFragmentManager(), " login");
 
     }
 

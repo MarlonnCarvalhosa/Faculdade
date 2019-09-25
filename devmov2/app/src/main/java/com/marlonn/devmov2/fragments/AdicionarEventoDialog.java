@@ -1,4 +1,4 @@
-package com.marlonn.devmov2;
+package com.marlonn.devmov2.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.marlonn.devmov2.DAO.DataBaseDAO;
+import com.marlonn.devmov2.LocationData;
+import com.marlonn.devmov2.R;
 import com.marlonn.devmov2.model.Evento;
 
 public class AdicionarEventoDialog extends AppCompatDialogFragment {
