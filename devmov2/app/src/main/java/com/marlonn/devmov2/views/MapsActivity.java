@@ -50,13 +50,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.marlonn.devmov2.utils.LocationData;
 import com.marlonn.devmov2.R;
 import com.marlonn.devmov2.fragments.AdicionarEventoDialog;
 import com.marlonn.devmov2.fragments.DescricaoEventoDialog;
 import com.marlonn.devmov2.fragments.LoginDialog;
 import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
+import com.marlonn.devmov2.utils.LocationData;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -368,6 +368,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }
 
                             getAllLocations();
+                            getEventos(evento.toString());
                         }
 
                     }
@@ -398,8 +399,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onInfoWindowClick(Marker marker) {
 
-                Evento evento = getEventos(marker.getTag().toString());
+                Evento evento = getEventos(String.valueOf(marker.getTag()));
                 DescricaoEventoDialog.newInstance(evento).show(getSupportFragmentManager(), "evento");
+                Log.v("Marlonn", evento.getId()+"");
 
             }
 
@@ -408,9 +410,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private Evento getEventos(String id) {
-
         for(Evento evento : eventos){
-            if(evento.getIdUsuario().equalsIgnoreCase(id)){
+            if(evento.getId().equalsIgnoreCase(id)){
                 return evento;
             }
         }
