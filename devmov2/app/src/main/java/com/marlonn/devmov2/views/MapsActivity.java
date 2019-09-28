@@ -69,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
-    private GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth firebaseAuth;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private Marker currentLocationMaker;
@@ -368,7 +368,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }
 
                             getAllLocations();
-                            getEventos(evento.toString());
                         }
 
                     }
@@ -382,10 +381,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void getAllLocations() {
-        for(Evento evento: eventos){
-            addRedMarkers(evento);
-        }
+        for(Evento evento: eventos) {
+            if (evento.getEventoOn().equals(true)) {
+                addRedMarkers(evento);
+            }
 
+        }
     }
 
     private void addRedMarkers(Evento evento) {
@@ -395,22 +396,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.title(evento.getNomeDoEvento());
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mMap.addMarker(markerOptions);
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
+            public boolean onMarkerClick(Marker marker) {
 
-                Evento evento = getEventos(String.valueOf(marker.getTag()));
+                Evento evento1 = getEventos(marker.getTag().toString());
                 DescricaoEventoDialog.newInstance(evento).show(getSupportFragmentManager(), "evento");
-                Log.v("Marlonn", evento.getId()+"");
-
+                Log.v("Marlonn", evento.getNomeDoEvento()+"");
+                return false;
             }
-
         });
 
     }
 
     private Evento getEventos(String id) {
-        for(Evento evento : eventos){
+        for(Evento evento: eventos){
             if(evento.getId().equalsIgnoreCase(id)){
                 return evento;
             }
