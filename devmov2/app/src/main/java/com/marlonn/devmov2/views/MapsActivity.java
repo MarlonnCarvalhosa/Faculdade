@@ -62,6 +62,7 @@ import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -207,6 +208,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             btn_mylocation.setImageDrawable(getDrawable(R.drawable.ic_action_my_location_dark));
 
         }
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Evento evento = getEventos(marker.getTag().toString());
+                DescricaoEventoDialog.newInstance().setarEvento(evento).show(getSupportFragmentManager(), "evento");
+            }
+        });
 
     }
 
@@ -364,10 +373,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 Evento evento = data.getValue(Evento.class);
                                 evento.setId(data.getKey());
                                 eventos.add(evento);
-
                             }
+                            pegarEventos(eventos);
 
-                            getAllLocations();
                         }
 
                     }
@@ -380,40 +388,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void getAllLocations() {
-        for(Evento evento: eventos) {
-            if (evento.getEventoOn().equals(true)) {
-                addRedMarkers(evento);
-            }
-
+    private void pegarEventos(List<Evento> evento) {
+        for (Evento evento1 : evento) {
+            addRedMarkers(evento1);
         }
+
     }
 
+
     private void addRedMarkers(Evento evento) {
+        Log.d("mark", evento.getNomeDoEvento());
         LatLng latLng = new LatLng(evento.getLatitude(), evento.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title(evento.getNomeDoEvento());
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        mMap.addMarker(markerOptions);
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-
-                Evento evento1 = getEventos(marker.getTag().toString());
-                DescricaoEventoDialog.newInstance(evento).show(getSupportFragmentManager(), "evento");
-                Log.v("Marlonn", evento.getNomeDoEvento()+"");
-                return false;
-            }
-        });
-
+        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(evento.getNomeDoEvento()));
+        marker.setTag(evento.getId());
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
     }
 
     private Evento getEventos(String id) {
         for(Evento evento: eventos){
-            if(evento.getId().equalsIgnoreCase(id)){
+                if(evento.getId().equalsIgnoreCase(id))
                 return evento;
-            }
         }
         return new Evento();
 

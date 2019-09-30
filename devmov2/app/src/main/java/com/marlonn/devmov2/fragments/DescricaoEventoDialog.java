@@ -16,9 +16,7 @@ import com.marlonn.devmov2.model.Evento;
 public class DescricaoEventoDialog extends DialogFragment {
 
     private TextView nomeDoEvento, descricaoDoEvento;
-    private FirebaseAuth auth;
-    private FirebaseUser firebaseUser;
-
+    private Evento evento;
     public DescricaoEventoDialog() {
     }
 
@@ -27,25 +25,25 @@ public class DescricaoEventoDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.descricao_evento_dialog, container, false);
-
-        auth = FirebaseAuth.getInstance();
         nomeDoEvento = view.findViewById(R.id.txt_nome_evento);
         descricaoDoEvento = view.findViewById(R.id.txt_decricao_evento);
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
-
-        Evento evento = (Evento) getArguments().getSerializable("evento");
         nomeDoEvento.setText(evento.getNomeDoEvento());
         descricaoDoEvento.setText(evento.getDescricaoDoEvento());
-
         return view;
     }
 
-    public static DescricaoEventoDialog newInstance(Evento evento) {
+    public static DescricaoEventoDialog newInstance( ) {
         DescricaoEventoDialog descricaoEventoDialog = new DescricaoEventoDialog();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("evento", evento);
-        descricaoEventoDialog.setArguments(bundle);
         return descricaoEventoDialog;
     }
+
+    public DescricaoEventoDialog setarEvento(Evento evento) {
+        this.evento = evento;
+        return this;
+
+    }
+
+
+
 
 }
