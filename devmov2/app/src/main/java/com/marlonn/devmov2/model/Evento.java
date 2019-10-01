@@ -10,13 +10,13 @@ public class Evento implements Serializable {
     private String inicioDoEvento;
     private String fimDoEvento;
     private String descricaoDoEvento;
-    private String horaDeInicio;
-    private String horaDeTerminar;
+    private String horaInicio;
+    private String horaFim;
     private double latitude;
     private double longitude;
     private Boolean eventoOn;
 
-    public Evento(String id, String idUsuario, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, String horaDeInicio, String horaDeTerminar, boolean eventoOn, double latitude, double longitude) {
+    public Evento(String id, String idUsuario, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, String horaInicio, String horaFim, boolean eventoOn, double latitude, double longitude) {
 
         this.id = id;
         this.idUsuario = idUsuario;
@@ -24,8 +24,8 @@ public class Evento implements Serializable {
         this.inicioDoEvento = inicioDoEvento;
         this.fimDoEvento = fimDoEvento;
         this.descricaoDoEvento = descricaoDoEvento;
-        this.horaDeInicio = horaDeInicio;
-        this.horaDeTerminar = horaDeTerminar;
+        this.horaInicio = horaInicio;
+        this.horaFim = horaFim;
         this.eventoOn = eventoOn;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -81,32 +81,20 @@ public class Evento implements Serializable {
         this.descricaoDoEvento = descricaoDoEvento;
     }
 
-    public Boolean getEventoOn(boolean b) {
-        return eventoOn;
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
-    public String getHoraDeInicio() {
-        return horaDeInicio;
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
     }
 
-    public void setHoraDeInicio(String horaDeInicio) {
-        this.horaDeInicio = horaDeInicio;
+    public String getHoraFim() {
+        return horaFim;
     }
 
-    public String getHoraDeTerminar() {
-        return horaDeTerminar;
-    }
-
-    public void setHoraDeTerminar(String horaDeTerminar) {
-        this.horaDeTerminar = horaDeTerminar;
-    }
-
-    public Boolean getEventoOn() {
-        return eventoOn;
-    }
-
-    public void setEventoOn(Boolean eventoOn) {
-        this.eventoOn = eventoOn;
+    public void setHoraFim(String horaFim) {
+        this.horaFim = horaFim;
     }
 
     public double getLatitude() {
@@ -123,5 +111,13 @@ public class Evento implements Serializable {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public Boolean getEventoOn() {
+        return eventoOn;
+    }
+
+    public void setEventoOn(Boolean eventoOn) {
+        this.eventoOn = eventoOn;
     }
 }

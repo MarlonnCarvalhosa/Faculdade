@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity  {
 
         layout1 = new ConstraintSet();
         layout2 = new ConstraintSet();
-        nomeUsuario = findViewById(R.id.txt_nome);
+        nomeUsuario = findViewById(R.id.txt_nomeUsuario);
         imageViewPhoto = findViewById(R.id.foto_perfil);
         constraintLayout = findViewById(R.id.constraint_layout);
         cover = findViewById(R.id.cover);

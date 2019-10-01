@@ -94,8 +94,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_maps);
-        nomeDoEvento = findViewById(R.id.txt_nome_evento);
-        descricaoDoEvento = findViewById(R.id.txt_decricao_evento);
+        nomeDoEvento = findViewById(R.id.txt_nomeEvento);
+        descricaoDoEvento = findViewById(R.id.txt_decricaoEvento);
         btn_perfil = findViewById(R.id.perfil_btn);
         btn_mylocation = findViewById(R.id.btn_my_location);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -209,14 +209,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
+            public boolean onMarkerClick(Marker marker) {
                 Evento evento = getEventos(marker.getTag().toString());
                 DescricaoEventoDialog.newInstance().setarEvento(evento).show(getSupportFragmentManager(), "evento");
+
+                return false;
             }
         });
-
     }
 
     @Override
@@ -244,7 +245,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         if (firebaseAuth.getCurrentUser() != null) {
-
             LocationData locationData = new LocationData(location.getLatitude(), location.getLongitude());
             mDatabase.child("usuarios").child(firebaseAuth.getCurrentUser().getUid()).child("mylocation").setValue(locationData);
 
@@ -397,7 +397,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void addRedMarkers(Evento evento) {
-        Log.d("mark", evento.getNomeDoEvento());
         LatLng latLng = new LatLng(evento.getLatitude(), evento.getLongitude());
         Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(evento.getNomeDoEvento()));
         marker.setTag(evento.getId());

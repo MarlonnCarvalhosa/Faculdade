@@ -12,34 +12,23 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.marlonn.devmov2.DAO.DataBaseDAO;
-import com.marlonn.devmov2.utils.LocationData;
 import com.marlonn.devmov2.R;
 import com.marlonn.devmov2.model.Evento;
+import com.marlonn.devmov2.utils.LocationData;
 
 public class AdicionarEventoDialog extends AppCompatDialogFragment {
 
-    private GoogleMap mMap;
-    private Marker currentLocationMaker;
-    private DatabaseReference mDatabase;
-    private DatabaseReference idInfo;
     private String uidEvento;
     private Evento evento = new Evento();
+    private EditText nomeDoEvento, dataInicioEvento, dataFimEvento, horaInicioEvento, horaFimEvento, descricaoEvento;
     private boolean eventoOn = true;
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    FirebaseAuth firebaseAuth;
-
-    private EditText nomeDoEvento;
-    private EditText dataInicioEvento;
-    private EditText dataFimEvento;
-    private EditText descricaoEvento;
     private double latitude;
     private double longitude;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseAuth firebaseAuth;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -52,6 +41,8 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
         nomeDoEvento = view.findViewById(R.id.edt_nomeEvento);
         dataInicioEvento = view.findViewById(R.id.edt_dataInicioEvento);
         dataFimEvento = view.findViewById(R.id.edt_dataFimEvento);
+        horaInicioEvento = view.findViewById(R.id.edt_horaInicio);
+        horaFimEvento = view.findViewById(R.id.edt_horaFim);
         descricaoEvento = view.findViewById(R.id.edt_descricao);
         
         if(getArguments() != null){
@@ -77,7 +68,6 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
                 progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.setMessage(AdicionarEventoDialog.this.getString(R.string.aguarde));
                 progressDialog.show();
-
                 Runnable progressRunnable = new Runnable() {
                     @Override
                     public void run() {
@@ -105,12 +95,13 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
     private void uploadEvento () {
 
         uidEvento = user.getUid();
-
         evento.setIdUsuario(uidEvento);
         evento.setNomeDoEvento(nomeDoEvento.getText().toString());
-        evento.setDescricaoDoEvento(descricaoEvento.getText().toString());
-        evento.setFimDoEvento(dataFimEvento.getText().toString());
         evento.setInicioDoEvento(dataInicioEvento.getText().toString());
+        evento.setFimDoEvento(dataFimEvento.getText().toString());
+        evento.setHoraInicio(horaInicioEvento.getText().toString());
+        evento.setHoraFim(horaFimEvento.getText().toString());
+        evento.setDescricaoDoEvento(descricaoEvento.getText().toString());
         evento.setLatitude(latitude);
         evento.setLongitude(longitude);
         evento.setEventoOn(eventoOn);

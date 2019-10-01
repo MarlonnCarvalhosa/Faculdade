@@ -44,7 +44,7 @@ public class AdapterUsuarios extends RecyclerView.Adapter<com.marlonn.devmov2.ad
             currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
             fotoGoogle = itemView.findViewById(R.id.foto_perfil);
-            txtNome = itemView.findViewById(R.id.txt_nome);
+            txtNome = itemView.findViewById(R.id.txt_nomeUsuario);
 
         }
     }

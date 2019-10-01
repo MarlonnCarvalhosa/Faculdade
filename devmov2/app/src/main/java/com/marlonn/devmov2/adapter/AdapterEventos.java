@@ -41,8 +41,8 @@ public class AdapterEventos extends RecyclerView.Adapter<com.marlonn.devmov2.ada
             auth = FirebaseAuth.getInstance();
             currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
-            txtNomeEvento = itemView.findViewById(R.id.txt_nome_evento);
-            txtDescricaoEvento = itemView.findViewById(R.id.txt_decricao_evento);
+            txtNomeEvento = itemView.findViewById(R.id.txt_nomeEvento);
+            txtDescricaoEvento = itemView.findViewById(R.id.txt_decricaoEvento);
 
         }
     }
