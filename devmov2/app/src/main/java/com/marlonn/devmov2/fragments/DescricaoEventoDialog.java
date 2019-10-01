@@ -1,6 +1,7 @@
 package com.marlonn.devmov2.fragments;
 
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import com.marlonn.devmov2.model.Evento;
 
 public class DescricaoEventoDialog extends DialogFragment {
 
-    private TextView nomeDoEvento, dataInicioEvento, dataFimEvento, horaInicioEvento, horaFimEvento, descricaoDoEvento;
+    private TextView nomeDoEvento, dataInicioEvento, horaInicioEvento, descricaoDoEvento, nomeCriadorEvento;
     private Evento evento;
 
     public DescricaoEventoDialog() {
@@ -26,16 +27,12 @@ public class DescricaoEventoDialog extends DialogFragment {
 
         nomeDoEvento = view.findViewById(R.id.txt_nomeEvento);
         dataInicioEvento = view.findViewById(R.id.txt_dataInicioEvento);
-        dataFimEvento = view.findViewById(R.id.txt_dataFimEvento);
-        horaInicioEvento = view.findViewById(R.id.txt_horaInicioEvento);
-        horaFimEvento = view.findViewById(R.id.txt_horaFimEvento);
+        nomeCriadorEvento = view.findViewById(R.id.txt_nomeCriadorEvento);
         descricaoDoEvento = view.findViewById(R.id.txt_decricaoEvento);
 
         nomeDoEvento.setText(evento.getNomeDoEvento());
+        nomeCriadorEvento.setText(evento.getNomeCriadorEvento());
         dataInicioEvento.setText(evento.getInicioDoEvento());
-        dataFimEvento.setText(evento.getFimDoEvento());
-        horaInicioEvento.setText(evento.getHoraInicio());
-        horaFimEvento.setText(evento.getHoraFim());
         descricaoDoEvento.setText(evento.getDescricaoDoEvento());
         return view;
     }

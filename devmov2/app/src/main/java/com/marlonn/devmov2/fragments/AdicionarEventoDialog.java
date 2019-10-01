@@ -21,7 +21,7 @@ import com.marlonn.devmov2.utils.LocationData;
 
 public class AdicionarEventoDialog extends AppCompatDialogFragment {
 
-    private String uidEvento;
+    private String uidEvento, nomeCriadorEvento;
     private Evento evento = new Evento();
     private EditText nomeDoEvento, dataInicioEvento, dataFimEvento, horaInicioEvento, horaFimEvento, descricaoEvento;
     private boolean eventoOn = true;
@@ -38,7 +38,9 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.adicionar_evento, null);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         nomeDoEvento = view.findViewById(R.id.edt_nomeEvento);
+        nomeCriadorEvento = firebaseAuth.getCurrentUser().getDisplayName();
         dataInicioEvento = view.findViewById(R.id.edt_dataInicioEvento);
         dataFimEvento = view.findViewById(R.id.edt_dataFimEvento);
         horaInicioEvento = view.findViewById(R.id.edt_horaInicio);
@@ -97,6 +99,7 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
         uidEvento = user.getUid();
         evento.setIdUsuario(uidEvento);
         evento.setNomeDoEvento(nomeDoEvento.getText().toString());
+        evento.setNomeCriadorEvento(nomeCriadorEvento);
         evento.setInicioDoEvento(dataInicioEvento.getText().toString());
         evento.setFimDoEvento(dataFimEvento.getText().toString());
         evento.setHoraInicio(horaInicioEvento.getText().toString());

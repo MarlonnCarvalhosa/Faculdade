@@ -7,6 +7,7 @@ public class Evento implements Serializable {
     private String id;
     private String idUsuario;
     private String nomeDoEvento;
+    private String nomeCriadorEvento;
     private String inicioDoEvento;
     private String fimDoEvento;
     private String descricaoDoEvento;
@@ -16,11 +17,12 @@ public class Evento implements Serializable {
     private double longitude;
     private Boolean eventoOn;
 
-    public Evento(String id, String idUsuario, String nomeDoEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, String horaInicio, String horaFim, boolean eventoOn, double latitude, double longitude) {
+    public Evento(String id, String idUsuario, String nomeDoEvento,String nomeCriadorEvento, String inicioDoEvento, String fimDoEvento, String descricaoDoEvento, String horaInicio, String horaFim, boolean eventoOn, double latitude, double longitude) {
 
         this.id = id;
         this.idUsuario = idUsuario;
         this.nomeDoEvento = nomeDoEvento;
+        this.nomeCriadorEvento = nomeCriadorEvento;
         this.inicioDoEvento = inicioDoEvento;
         this.fimDoEvento = fimDoEvento;
         this.descricaoDoEvento = descricaoDoEvento;
@@ -55,6 +57,14 @@ public class Evento implements Serializable {
 
     public void setNomeDoEvento(String nomeDoEvento) {
         this.nomeDoEvento = nomeDoEvento;
+    }
+
+    public String getNomeCriadorEvento() {
+        return nomeCriadorEvento;
+    }
+
+    public void setNomeCriadorEvento(String nomeCriadorEvento) {
+        this.nomeCriadorEvento = nomeCriadorEvento;
     }
 
     public String getInicioDoEvento() {
