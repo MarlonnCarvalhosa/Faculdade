@@ -26,9 +26,12 @@ import androidx.core.content.ContentResolverCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,6 +40,7 @@ import com.marlonn.devmov2.R;
 import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.utils.LocationData;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
@@ -164,12 +168,27 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
 
     private void uploadImagem () {
         if (filePatch != null) {
-
             StorageReference ref = storageReference.child("imagens/" + UUID.randomUUID().toString());
             ref.putFile(filePatch).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    Toast.makeText(getActivity(), "completo", Toast.LENGTH_LONG).show();
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            DatabaseReference imagestore = FirebaseDatabase.getInstance().getReference().child("eventos").child(evento.getId()).child("imagem");
+                            HashMap<String, String> hashMap  = new HashMap<>();
+                            hashMap.put("imageurl", String.valueOf(uri));
+
+                            imagestore.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            });
+
+                        }
+                    });
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
