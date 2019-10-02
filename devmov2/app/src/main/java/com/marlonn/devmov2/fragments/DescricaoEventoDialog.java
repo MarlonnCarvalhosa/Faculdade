@@ -56,12 +56,25 @@ public class DescricaoEventoDialog extends DialogFragment {
     }
 
     private void getMarkers(){
-        DatabaseReference imagestore = FirebaseDatabase.getInstance().getReference().child("eventos").child(evento.getId()).child("imagem").child("imageurl");
-        url = String.valueOf(imagestore);
+        mDatabase.child("eventos").child(evento.getId()).child("imagem").child("imageurl").addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() != null) {
+                            url = String.valueOf(dataSnapshot.getValue());
+                            Log.v("Marlonn Carvalhosa", url+ "");
 
-        Log.v("Marlonn Carvalhosa", url + "");
+                            Picasso.get().load(url).into(imagemEvento);
 
-        Picasso.get().load(url).into(imagemEvento);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+
+                });
 
     }
 
