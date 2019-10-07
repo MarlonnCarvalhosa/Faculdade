@@ -18,7 +18,7 @@
             android:id="@+id/perfil_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_margin="11.5dp"
+            android:layout_margin="20dp"
             android:layout_gravity="end"
             android:background="@color/transparent"
             android:src="@drawable/ic_action_perfil"/>

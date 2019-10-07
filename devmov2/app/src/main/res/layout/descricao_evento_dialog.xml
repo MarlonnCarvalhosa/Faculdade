@@ -9,7 +9,6 @@
         android:id="@+id/img_eventoImagem"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:src="@drawable/cover"
         android:scaleType="centerCrop"/>
 
     <LinearLayout
@@ -113,8 +112,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:text="Sexta-feira, 19 de maio de 2020 às 00:00"
                 android:layout_gravity="center_vertical"/>
-
 
         </LinearLayout>
 
@@ -128,13 +127,37 @@
             android:layout_marginTop="30dp"
             android:layout_marginLeft="2dp"/>
 
-        <TextView
-            android:id="@+id/txt_decricaoEvento"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:textSize="15sp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/txt_decricaoEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="end">
+
+        <Button
+            android:id="@+id/btn_fecharDescricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:text="Fechar"
+            android:textStyle="bold"
+            android:drawableRight="@drawable/ic_action_close"/>
 
     </LinearLayout>
 

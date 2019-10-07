@@ -1,24 +1,32 @@
 package com.marlonn.devmov2.views;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -58,6 +66,7 @@ import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
 import com.marlonn.devmov2.utils.LocationData;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -395,12 +404,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
     private void addRedMarkers(Evento evento) {
         LatLng latLng = new LatLng(evento.getLatitude(), evento.getLongitude());
         Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(evento.getNomeDoEvento()));
         marker.setTag(evento.getId());
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+        /*Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                marker.setIcon( BitmapDescriptorFactory.fromBitmap(bitmap) );
+
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });*/
+
     }
 
     private Evento getEventos(String id) {
