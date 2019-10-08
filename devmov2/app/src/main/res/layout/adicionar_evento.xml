@@ -27,54 +27,32 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edt_dataInicioEvento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="dd/mm/aaaa data inicio"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edt_dataFimEvento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="dd/mm/aaaa data fim"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edt_horaInicio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hh:mm hora inicio"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edt_horaFim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hh/mm hora fim"/>
+    <Button
+        android:id="@+id/edt_dataInicioEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data Inicio"/>
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/edt_dataFimEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data Fim"/>
+
+    <Button
+        android:id="@+id/edt_horaInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hora inicio"/>
+
+    <Button
+        android:id="@+id/edt_horaFim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hora fim"/>
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"

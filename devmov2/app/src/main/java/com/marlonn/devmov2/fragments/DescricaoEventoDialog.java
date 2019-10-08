@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
 
 public class DescricaoEventoDialog extends DialogFragment {
 
-    private TextView nomeDoEvento, dataInicioEvento, horaInicioEvento, descricaoDoEvento, nomeCriadorEvento;
+    private TextView nomeDoEvento, diaInicioEvento,anoInicioEvento, mesInicioEvento,nomeMes, nomeMesAbreviado, horaInicioEvento, descricaoDoEvento, nomeCriadorEvento;
     private ImageView imagemEvento;
     private Button fecharDescricao;
     private String url;
@@ -39,15 +39,26 @@ public class DescricaoEventoDialog extends DialogFragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         nomeDoEvento = view.findViewById(R.id.txt_nomeEvento);
-        dataInicioEvento = view.findViewById(R.id.txt_dataInicioEvento);
+        horaInicioEvento = view.findViewById(R.id.txt_horaIniciEvento);
+        diaInicioEvento = view.findViewById(R.id.txt_diaInicioEvento);
+        mesInicioEvento = view.findViewById(R.id.txt_mesInicioEvento);
+        nomeMes = view.findViewById(R.id.txt_nomeMes);
+        nomeMesAbreviado = view.findViewById(R.id.txt_nomeMesAbreviado);
+        anoInicioEvento = view.findViewById(R.id.txt_anoInicioEvento);
         nomeCriadorEvento = view.findViewById(R.id.txt_nomeCriadorEvento);
         descricaoDoEvento = view.findViewById(R.id.txt_decricaoEvento);
         imagemEvento = view.findViewById(R.id.img_eventoImagem);
         fecharDescricao = view.findViewById(R.id.btn_fecharDescricao);
 
         nomeDoEvento.setText(evento.getNomeDoEvento());
+        diaInicioEvento.setText(evento.getDiaInicioEvento());
+        mesInicioEvento.setText(evento.getDiaInicioEvento());
+        nomeMes.setText(evento.getNomeMes());
+        nomeMesAbreviado.setText(evento.getNomeMes().substring(0 , 3));
+        anoInicioEvento.setText(evento.getAnoInicioEvento());
+        horaInicioEvento.setText(evento.getHoraInicio());
         nomeCriadorEvento.setText(evento.getNomeCriadorEvento());
-        //dataInicioEvento.setText(evento.getInicioDoEvento());
+        //dataInicioEvento.setText(evento.getDiaInicioEvento());
         descricaoDoEvento.setText(evento.getDescricaoDoEvento());
         fecharDescricao.setOnClickListener(new View.OnClickListener() {
             @Override
