@@ -1,69 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/add_imagemEvento"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_action_adicionar_foto"/>
-
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/edt_nomeEvento"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_eventoImagem"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/adicionarimagem"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="25dp"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome do Evento"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical" >
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/edt_dataInicioEvento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data Inicio"/>
+                <EditText
+                    android:id="@+id/edt_nomeEvento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:hint="Nome do Evento"/>
 
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/edt_dataFimEvento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data Fim"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/edt_horaInicio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hora inicio"/>
+                <EditText
+                    android:id="@+id/edt_descricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:hint="Descrição"/>
 
-    <Button
-        android:id="@+id/edt_horaFim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hora fim"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
+        </LinearLayout>
 
+    </LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/edt_descricao"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Descrição"/>
+            android:orientation="vertical" >
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="Início:"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Data"/>
+
+            <EditText
+                android:id="@+id/edt_dataInicioEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textColor="@color/gradient_start_color"
+                android:text="dd/mm/aaaa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Hora"/>
+
+            <EditText
+                android:id="@+id/edt_horaInicio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textColor="@color/gradient_start_color"
+                android:text="00:00"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="Fim:"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Data"/>
+
+            <EditText
+                android:id="@+id/edt_dataFimEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textColor="@color/gradient_start_color"
+                android:text="dd/mm/aaaa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Hora"/>
+
+            <EditText
+                android:id="@+id/edt_horaFim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textColor="@color/gradient_start_color"
+                android:text="00:00"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

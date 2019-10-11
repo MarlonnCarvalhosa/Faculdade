@@ -9,7 +9,7 @@ public class Evento implements Serializable {
     private String nomeDoEvento;
     private String nomeCriadorEvento;
     private String imagemEvento;
-    private String diaInicioEvento, mesInicioEvento, anoInicioEvento, diaFimEvento, mesFimEvento, anoFimEvento, nomeMes;
+    private String diaInicioEvento, mesInicioEvento, anoInicioEvento, diaFimEvento, mesFimEvento, anoFimEvento, nomeMes, nomeSemana;
     private String descricaoDoEvento;
     private String horaInicio;
     private String horaFim;
@@ -17,7 +17,7 @@ public class Evento implements Serializable {
     private double longitude;
     private Boolean eventoOn;
 
-    public Evento(String id, String idUsuario, String nomeDoEvento, String nomeCriadorEvento, String imagemEvento, String diaInicioEvento, String mesInicioEvento, String nomeMes,
+    public Evento(String id, String idUsuario, String nomeDoEvento, String nomeCriadorEvento, String imagemEvento, String diaInicioEvento, String mesInicioEvento, String nomeMes, String nomeSemana,
                   String anoInicioEvento, String diaFimEvento, String mesFimEvento, String anoFimEvento, String descricaoDoEvento, String horaInicio,
                   String horaFim, boolean eventoOn, double latitude, double longitude) {
 
@@ -29,6 +29,7 @@ public class Evento implements Serializable {
         this.diaInicioEvento = diaInicioEvento;
         this.mesInicioEvento = mesInicioEvento;
         this.nomeMes = nomeMes;
+        this.nomeSemana = nomeSemana;
         this.anoInicioEvento = anoInicioEvento;
         this.diaFimEvento = diaFimEvento;
         this.mesFimEvento = mesFimEvento;
@@ -105,6 +106,14 @@ public class Evento implements Serializable {
 
     public void setNomeMes(String nomeMes) {
         this.nomeMes = nomeMes;
+    }
+
+    public String getNomeSemana() {
+        return nomeSemana;
+    }
+
+    public void setNomeSemana(String nomeSemana) {
+        this.nomeSemana = nomeSemana;
     }
 
     public String getAnoInicioEvento() {

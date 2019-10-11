@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
 
 public class DescricaoEventoDialog extends DialogFragment {
 
-    private TextView nomeDoEvento, diaInicioEvento,anoInicioEvento, mesInicioEvento,nomeMes, nomeMesAbreviado, horaInicioEvento, descricaoDoEvento, nomeCriadorEvento;
+    private TextView nomeDoEvento, diaInicioEvento,anoInicioEvento, mesInicioEvento,nomeMes,nomeSemana, nomeMesAbreviado, horaInicioEvento, descricaoDoEvento, nomeCriadorEvento;
     private ImageView imagemEvento;
     private Button fecharDescricao;
     private String url;
@@ -43,6 +43,7 @@ public class DescricaoEventoDialog extends DialogFragment {
         diaInicioEvento = view.findViewById(R.id.txt_diaInicioEvento);
         mesInicioEvento = view.findViewById(R.id.txt_mesInicioEvento);
         nomeMes = view.findViewById(R.id.txt_nomeMes);
+        nomeSemana = view.findViewById(R.id.txt_nomeSemana);
         nomeMesAbreviado = view.findViewById(R.id.txt_nomeMesAbreviado);
         anoInicioEvento = view.findViewById(R.id.txt_anoInicioEvento);
         nomeCriadorEvento = view.findViewById(R.id.txt_nomeCriadorEvento);
@@ -54,11 +55,11 @@ public class DescricaoEventoDialog extends DialogFragment {
         diaInicioEvento.setText(evento.getDiaInicioEvento());
         mesInicioEvento.setText(evento.getDiaInicioEvento());
         nomeMes.setText(evento.getNomeMes());
+        nomeSemana.setText(evento.getNomeSemana());
         nomeMesAbreviado.setText(evento.getNomeMes().substring(0 , 3));
         anoInicioEvento.setText(evento.getAnoInicioEvento());
         horaInicioEvento.setText(evento.getHoraInicio());
         nomeCriadorEvento.setText(evento.getNomeCriadorEvento());
-        //dataInicioEvento.setText(evento.getDiaInicioEvento());
         descricaoDoEvento.setText(evento.getDescricaoDoEvento());
         fecharDescricao.setOnClickListener(new View.OnClickListener() {
             @Override

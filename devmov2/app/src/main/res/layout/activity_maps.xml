@@ -23,14 +23,15 @@
             android:background="@color/transparent"
             android:src="@drawable/ic_action_perfil"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_my_location"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_action_my_location"
+            android:backgroundTint="@color/white"
             android:layout_marginEnd="15dp" />
 
 </FrameLayout>

@@ -1,32 +1,25 @@
 package com.marlonn.devmov2.views;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -51,6 +44,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -66,7 +60,6 @@ import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
 import com.marlonn.devmov2.utils.LocationData;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,7 +79,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng currentLocationLatLong;
     private LocationData locationData;
     private DatabaseReference mDatabase;
-    private CircleImageView btn_perfil, btn_mylocation;
+    private CircleImageView btn_perfil;
+    private FloatingActionButton btn_mylocation;
     private ArrayList<Evento>  eventos = new ArrayList<>();
     private Usuario usuario = new Usuario();
     private Evento evento = new Evento();
@@ -133,7 +127,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (firebaseAuth.getCurrentUser() != null) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
             Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(btn_perfil);
 
             if (user != null) {
@@ -193,16 +186,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
-        if (firebaseAuth.getCurrentUser() == null) {
-            Toast.makeText(MapsActivity.this, "nao logado", Toast.LENGTH_LONG).show();
-        }
-
         Calendar c = Calendar.getInstance();
         hora = c.get(Calendar.HOUR_OF_DAY);
 
         if(hora >= 18 || hora < 6) {
-
             try {
                 boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.mapstyle));
 
@@ -213,8 +200,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (Resources.NotFoundException e) {
                 Log.e("MapActivity", "Can't find style. Error: ", e);
             }
-
-            btn_mylocation.setImageDrawable(getDrawable(R.drawable.ic_action_my_location_dark));
 
         }
 
@@ -406,7 +391,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void addRedMarkers(Evento evento) {
         LatLng latLng = new LatLng(evento.getLatitude(), evento.getLongitude());
-        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(evento.getNomeDoEvento()));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
         marker.setTag(evento.getId());
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
@@ -437,6 +422,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return new Evento();
 
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return manager.getActiveNetworkInfo() != null &&
+                manager.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
     @Override

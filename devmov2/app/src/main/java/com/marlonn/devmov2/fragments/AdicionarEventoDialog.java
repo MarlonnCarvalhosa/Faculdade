@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -49,29 +51,30 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.app.Activity.RESULT_OK;
 
-public class AdicionarEventoDialog extends AppCompatDialogFragment {
+public class AdicionarEventoDialog extends DialogFragment {
 
-    private String uidEvento, nomeCriadorEvento, diaInicio, mesInicio, nomeMes, anoInicio, diaFim, mesFim, anoFim, horaInicio, horaFim;
-    private ImageView imgEvento;
+    private String uidEvento, nomeCriadorEvento, diaInicio, mesInicio, nomeMes, nomeSemana, anoInicio, diaFim, mesFim, anoFim, horaInicio, horaFim;
+    private CircleImageView imgEvento;
     private Evento evento = new Evento();
-    private EditText nomeDoEvento, descricaoEvento;
+    private EditText nomeDoEvento, descricaoEvento, dataInicioEvento, dataFimEvento, horaInicioEvento, horaFimEvento;
     private boolean eventoOn = true;
+    private int currentHour, currentMinute, year, month, dayOfMonth, dayWeek;
     private double latitude;
     private double longitude;
-    private final int PICK_IMAGE_REQUEST = 71;
+    private final int PICK_IMAGE_REQUEST = 1;
     private Uri filePatch;
-    private Button dataInicioEvento, dataFimEvento, horaInicioEvento, horaFimEvento ;
+    private ProgressDialog progress;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseAuth firebaseAuth;
     FirebaseStorage storage;
     StorageReference storageReference;
-
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     Calendar calendar;
-    private int currentHour, currentMinute, year, month, dayOfMonth;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -99,13 +102,14 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
         horaInicioEvento = view.findViewById(R.id.edt_horaInicio);
         horaFimEvento = view.findViewById(R.id.edt_horaFim);
         descricaoEvento = view.findViewById(R.id.edt_descricao);
-        imgEvento = view.findViewById(R.id.add_imagemEvento);
+        imgEvento = view.findViewById(R.id.img_eventoImagem);
         imgEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 abrirGaleriaImagem();
             }
         });
+
         horaInicioEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,6 +121,7 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
                         horaInicio = String.format("%02d:%02d", hourOfDay, minutes);
+                        horaInicioEvento.setText(String.format("%02d:%02d", hourOfDay, minutes));
                     }
                 }, currentHour, currentMinute, true);
 
@@ -135,6 +140,7 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
                         horaFim = String.format("%02d:%02d", hourOfDay, minutes);
+                        horaFimEvento.setText(String.format("%02d:%02d", hourOfDay, minutes));
                     }
                 }, currentHour, currentMinute, true);
 
@@ -156,6 +162,12 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
                         SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
                         cal.set(Calendar.MONTH,month);
                         nomeMes = month_date.format(cal.getTime());
+
+                        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEEE");
+                        Date date = new Date(year, month, day-1);
+                        nomeSemana = simpledateformat.format(date);
+
+                        dataInicioEvento.setText(day + "/" + (month +1) + "/" + year);
                     }
                 }, year, month, dayOfMonth);
                 datePickerDialog.show();
@@ -172,6 +184,9 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
                         diaFim = String.valueOf(day);
                         mesFim = String.valueOf(month + 1);
                         anoFim = String.valueOf(year);
+
+                        dataFimEvento.setText(day + "/" + month + "/" + year);
+
                     }
                 }, year, month, dayOfMonth);
                 datePickerDialog.show();
@@ -179,14 +194,13 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
 
         });
 
-        
         if(getArguments() != null){
             latitude = getArguments().getDouble("lat");
             longitude = getArguments().getDouble("long");
         }
 
         builder.setView(view);
-        builder.setTitle("Crie um evento!");
+        builder.setTitle("Crie seu evento!");
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -200,20 +214,38 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
                 uploadEvento();
                 uploadImagem();
 
-                final ProgressDialog progressDialog = new ProgressDialog(getContext());
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage(AdicionarEventoDialog.this.getString(R.string.aguarde));
-                progressDialog.show();
-                Runnable progressRunnable = new Runnable() {
+                progress = new ProgressDialog(getActivity());
+                progress.setMax(100);
+                progress.setTitle("Criando Evento...");
+                progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progress.show();
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        progressDialog.cancel();
+                        try{
+                            while(progress.getProgress() <= progress.getMax()){
+                                Thread.sleep(70);
+                                handle.sendMessage(handle.obtainMessage());
+                                if(progress.getProgress() == progress.getMax())
+                                {
+                                    progress.dismiss();
+                                }
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
-                };
-
-                Handler pdCanceller = new Handler();
-                pdCanceller.postDelayed(progressRunnable, 2500);
+                }).start();
             }
+            @SuppressLint("HandlerLeak")
+            Handler handle = new Handler(){
+                @Override
+                public void handleMessage(Message msg){
+                    super.handleMessage(msg);
+                    progress.incrementProgressBy(1);
+                }
+            };
+
         });
 
         return builder.create();
@@ -251,7 +283,6 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
         }
 
@@ -299,6 +330,7 @@ public class AdicionarEventoDialog extends AppCompatDialogFragment {
         evento.setDiaInicioEvento(diaInicio);
         evento.setMesInicioEvento(mesInicio);
         evento.setNomeMes(nomeMes.substring(0,1).toUpperCase().concat(nomeMes.substring(1)));
+        evento.setNomeSemana(nomeSemana.substring(0,1).toUpperCase().concat(nomeSemana.substring(1)));
         evento.setAnoInicioEvento(anoInicio);
         evento.setDiaFimEvento(diaFim);
         evento.setMesFimEvento(mesFim);
