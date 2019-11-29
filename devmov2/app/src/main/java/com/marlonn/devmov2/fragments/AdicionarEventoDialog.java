@@ -1,5 +1,6 @@
 package com.marlonn.devmov2.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -8,12 +9,14 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +47,7 @@ import com.marlonn.devmov2.DAO.DataBaseDAO;
 import com.marlonn.devmov2.R;
 import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.utils.LocationData;
+import com.marlonn.devmov2.views.MapsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -83,6 +88,10 @@ public class AdicionarEventoDialog extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.adicionar_evento, null);
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0 );
+        }
 
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -228,6 +237,7 @@ public class AdicionarEventoDialog extends DialogFragment {
                                 handle.sendMessage(handle.obtainMessage());
                                 if(progress.getProgress() == progress.getMax())
                                 {
+                                    //callback.atualizaMarkets()
                                     progress.dismiss();
                                 }
                             }
@@ -343,6 +353,10 @@ public class AdicionarEventoDialog extends DialogFragment {
         evento.setEventoOn(eventoOn);
 
         new DataBaseDAO().saveEvento(getActivity(), evento);
+    }
+
+    public interface CallbackEvento {
+        void atualizaMarkers();
     }
 
 }

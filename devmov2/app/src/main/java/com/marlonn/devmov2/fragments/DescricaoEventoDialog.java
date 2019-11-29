@@ -69,7 +69,6 @@ public class DescricaoEventoDialog extends DialogFragment {
         });
 
         getImagem();
-
         return view;
     }
 

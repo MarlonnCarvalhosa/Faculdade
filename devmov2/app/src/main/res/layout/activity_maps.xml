@@ -20,6 +20,9 @@
             android:layout_height="45dp"
             android:layout_margin="20dp"
             android:layout_gravity="end"
+            android:outlineSpotShadowColor="#000"
+            android:stateListAnimator="@null"
+            android:elevation="10dp"
             android:background="@color/transparent"
             android:src="@drawable/ic_action_perfil"/>
 

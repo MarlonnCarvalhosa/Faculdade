@@ -1,11 +1,14 @@
 package com.marlonn.devmov2.views;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.Guideline;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -58,8 +62,10 @@ import com.marlonn.devmov2.fragments.DescricaoEventoDialog;
 import com.marlonn.devmov2.fragments.LoginDialog;
 import com.marlonn.devmov2.model.Evento;
 import com.marlonn.devmov2.model.Usuario;
+import com.marlonn.devmov2.utils.CircleTransform;
 import com.marlonn.devmov2.utils.LocationData;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,7 +74,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, Serializable {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, Serializable, AdicionarEventoDialog.CallbackEvento {
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
@@ -122,7 +128,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         startGettingLocations();
         getMarkers();
-
         mMap = googleMap;
 
         if (firebaseAuth.getCurrentUser() != null) {
@@ -395,24 +400,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         marker.setTag(evento.getId());
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
-        /*Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                marker.setIcon( BitmapDescriptorFactory.fromBitmap(bitmap) );
-
-            }
-
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        });*/
-
     }
 
     private Evento getEventos(String id) {
@@ -481,4 +468,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onProviderDisabled(String s) {
     }
 
+    @Override
+    public void atualizaMarkers() {
+        getMarkers();
+    }
 }
