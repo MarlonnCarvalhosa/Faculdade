@@ -1,13 +1,16 @@
 package com.marlonn.devmov2.views;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.transition.TransitionManager;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +44,7 @@ public class ProfileActivity extends AppCompatActivity  {
     private ConstraintLayout constraintLayout ;
     private CircleImageView imageViewPhoto;
     private ImageView cover;
-    private TextView nomeUsuario;
+    private TextView nomeUsuario, txt_email,txt_numero;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +53,13 @@ public class ProfileActivity extends AppCompatActivity  {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        // changing the status bar color to transparent -----
-
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         layout1 = new ConstraintSet();
         layout2 = new ConstraintSet();
+        txt_email = findViewById(R.id.txt_email);
+        txt_numero = findViewById(R.id.txt_numero_celular);
         nomeUsuario = findViewById(R.id.txt_nomeUsuario);
         imageViewPhoto = findViewById(R.id.foto_perfil);
         constraintLayout = findViewById(R.id.constraint_layout);
@@ -90,6 +93,9 @@ public class ProfileActivity extends AppCompatActivity  {
 
         if (firebaseAuth.getCurrentUser() != null) {
             nomeUsuario.setText(firebaseAuth.getCurrentUser().getDisplayName());
+            txt_email.setText(firebaseAuth.getCurrentUser().getEmail());
+            //txt_numero.setText(firebaseAuth.getCurrentUser().getPhoneNumber());
+            Toast.makeText(ProfileActivity.this, firebaseAuth.getCurrentUser().getPhoneNumber(), Toast.LENGTH_LONG).show();
             Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(imageViewPhoto);
             Picasso.get().load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(cover);
         }
