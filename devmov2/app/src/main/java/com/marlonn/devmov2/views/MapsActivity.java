@@ -156,8 +156,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
 
-                Toast.makeText(MapsActivity.this, "logado", Toast.LENGTH_LONG).show();
-
             }
 
         } else {
